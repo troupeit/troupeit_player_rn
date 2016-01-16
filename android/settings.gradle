@@ -1,0 +1,3 @@
+rootProject.name = 'troupeit_player_rn'
+
+include ':app'
