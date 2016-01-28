@@ -67,10 +67,13 @@ var ShowList = React.createClass({
   rowPressed(rowData) {
 
     console.log('ok?', this.state.images)
+    var titleConfig = { 
+        title: "Songs"
+    }
 
     this.props.navigator.push({
       component: Show,
-      navigationBar: <NavigationBar title='Songs' />,
+      navigationBar: <NavigationBar title={titleConfig} />,
       props: {
         identifier: rowData.identifier,
         image: this.state.images[0].url
@@ -97,7 +100,7 @@ var ShowList = React.createClass({
 
   render: function() {
 
-    var elem = this.state.dataSource.$ListViewDataSource_dataBlob.s1.length > 0 ?
+    var elem = this.state.dataSource._dataBlob.s1.length > 0 ?
         <ListView
             initialListSize={25}
             dataSource={this.state.dataSource}

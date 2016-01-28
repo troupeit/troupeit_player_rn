@@ -93,9 +93,13 @@ var Show = React.createClass({
 
     console.log('ok i am about to push?', this.props)
 
+    var titleConfig = { 
+      title: "Now Playing"
+    }
+
     this.props.navigator.push({
       component: Track,
-      navigationBar: <NavigationBar title='Now Playing' />,
+      navigationBar: <NavigationBar title={titleConfig} />,
       props: {
         image: this.props.image
       },

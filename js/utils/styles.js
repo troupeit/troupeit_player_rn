@@ -7,6 +7,9 @@ var {
   StyleSheet
 } = React;
 
+var Dimensions = require('Dimensions');
+var screenWidth = Dimensions.get('window').width;
+var screenHeight = Dimensions.get('window').height;
 
 /*
 
@@ -15,11 +18,13 @@ var {
 */
 
 var LABEL_COLOR = '#000000';
-var INPUT_COLOR = '#000000';
+var INPUT_COLOR = '#ffffff';
+var LINK_COLOR = '#dddddd';
 var ERROR_COLOR = '#a94442';
 var HELP_COLOR = '#999999';
 var BORDER_COLOR = '#cccccc';
 var DISABLED_COLOR = '#777777';
+var MENU_ITEM_COLOR = '#777777';
 var DISABLED_BACKGROUND_COLOR = '#eeeeee';
 var FONT_SIZE = 17;
 var FONT_WEIGHT = '500';
@@ -78,6 +83,8 @@ var stylesheet = Object.freeze({
       borderRadius: 4,
       borderColor: BORDER_COLOR,
       borderWidth: 1,
+      marginLeft: 10,
+      marginRight: 10,
       marginBottom: 5,
     },
     // the style applied when a validation error occours
@@ -115,6 +122,18 @@ var stylesheet = Object.freeze({
       marginBottom: 4
     }
   },
+  link: {
+    color: LINK_COLOR,
+    backgroundColor: 'transparent',
+    marginLeft: 10
+  },
+  bgimage: {
+    flex: 1,
+    // remove width and height to override fixed static size
+    width: null,
+    height: null,
+    resizeMode: 'cover'
+  },
   select: {
     normal: {
       marginBottom: 4
@@ -136,7 +155,6 @@ var stylesheet = Object.freeze({
   navContainer: {
     flex: 1,
     height: 100,
-    backgroundColor: '#FFFFFF',
   },
   buttonText: {
     fontSize: 18,
@@ -145,12 +163,14 @@ var stylesheet = Object.freeze({
   },
   button: {
     height: 36,
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
+    backgroundColor: 'transparent',
+    borderColor: '#ffffff',
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,
     marginTop: 20,
+    marginLeft: 10,
+    marginRight: 10,
     alignSelf: 'stretch',
     justifyContent: 'center'
   },
@@ -169,6 +189,13 @@ var stylesheet = Object.freeze({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  homeContainer: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'flex-start',
+    backgroundColor: 'black',
+    height: (screenHeight-100)
+  },
   centering: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -176,7 +203,16 @@ var stylesheet = Object.freeze({
   },
   welcome: {
     fontSize: 20,
-    textAlign: 'center',
+    justifyContent: 'flex-start',
+    color: '#fff',
+    backgroundColor: 'transparent',
+    margin: 10,
+  },
+  welcomeerror: {
+    fontSize: 14,
+    justifyContent: 'flex-start',
+    color: '#fff',
+    backgroundColor: 'red',
     margin: 10,
   },
   instructions: {
@@ -257,24 +293,22 @@ var stylesheet = Object.freeze({
     left: 155,
     top: 200
   },
+  menuitem: {
+    color: MENU_ITEM_COLOR
+  },
   menu: {
     flex: 1,
-    height: 400,
-    backgroundColor: '#FFFFFF'
-  },
-  currentTrackContainer: {
-    height: 100
+    height: 800,
+    width: 300,
+    backgroundColor: '#000000'
   },
   showList: {
     flexDirection: 'row',
     flexWrap: 'wrap'
   },
   currentTrack: {
-    flexDirection: 'row',
-    height: 40,
+    justifyContent: 'flex-end',
     backgroundColor: '#3D3C3A',
-    paddingTop: 7,
-    paddingLeft: 4
   },
   currentTrackText: {
     top: 6,

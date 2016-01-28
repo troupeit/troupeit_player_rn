@@ -7,11 +7,13 @@ var {
   TouchableOpacity,
   View,
 } = React;
+
 var PlayerStore = require('../stores/player-store')
 var ListenerMixin = require('alt-mixins/ListenerMixin')
 var sortByAll = require('lodash.sortbyall');
 var PlayerActions = require('../actions/player-actions')
-var Icon = require('react-native-icons');
+var {Icon, } = require('react-native-icons');
+
 
 var stylescss = require('../utils/styles');
 
@@ -70,22 +72,26 @@ var CurrentTrackFooter = React.createClass({
 
     var status = this.state.playing ?
       <Icon
-        name='ion|pause'
+        name='fontawesome|pause'
         size={20}
-        color='white'
-        style={stylescss.play}
-      />:
-      <Icon
-        name='ion|play'
-        size={20}
+        width={20}
+        height={20}     
         color='white'
         style={stylescss.pause}
+      />:
+      <Icon
+        name='fontawesome|play'
+        size={20}
+        width={20}
+        height={20}     
+        color='white'
+        style={stylescss.play}
       />;
 
     var toggleSwitch = this.state.song ?
     <TouchableOpacity onPress={this._updatePlayingStatus}>
       {status}
-    </TouchableOpacity>: null;
+    </TouchableOpacity> : <Text style={stylescss.currentTrackText}> No Cue Playing.</Text>
 
     return (
       <View style={stylescss.currentTrack}>

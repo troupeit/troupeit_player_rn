@@ -19,13 +19,12 @@ import React, {
 var Home = require('./js/components/home');
 var NavigationBar = require('react-native-navbar');
 var ShowList = require('./js/components/show-list');
-var styles = require('./js/utils/styles');
+var stylescss = require('./js/utils/styles');
 var Video = require('react-native-video');
 var App = require('./js/app.js')
 var PlayerActions = require('./js/actions/player-actions')
 var PlayerStore = require('./js/stores/player-store')
 var ListenerMixin = require('alt-mixins/ListenerMixin')
-var SideMenu = require('react-native-side-menu');
 var Menu = require('./js/components/menu')
 var CurrentTrack = require('./js/components/current-track')
 
@@ -36,14 +35,14 @@ var navigation = React.createClass ({
     var navBar = route.navigationBar;
 
     if (navBar) {
-      navBar = React.addons.cloneWithProps(navBar, {
+      navBar = React.cloneElement(navBar, {
         navigator: navigator,
         route: route
       });
     }
 
     return (
-      <View style={styles.navContainer}>
+      <View style={stylescss.navContainer}>
 
         {navBar}
         <Component navigator={navigator} {...route.props} />
@@ -54,20 +53,24 @@ var navigation = React.createClass ({
   },
 
   render: function() {
+    var titleConfig = {
+      title: 'troupeIT Player',
+      tintColor: '#bbbbbb'
+    };
+
     return (
       <Navigator
         ref={(navigator) => {
           this._navigator = navigator;
         }}
         renderScene={this.renderScene}
-        style={styles.navContainer}
+        style={stylescss.navContainer}
         configureScene={(route) => ({
           ...route.sceneConfig || Navigator.SceneConfigs.FloatFromRight
         })}
         initialRoute={{
           component: TIPlayer,
-          navigationBar: <NavigationBar title="Archive.org Audio" hidePrev={true} prevTitle='haha' />,
-          title: 'Archive.org Audio',
+          navigationBar: <NavigationBar tintColor="#222222" title={titleConfig} hidePrev={true} prevTitle='haha' />
         }}/>
     );
   },
@@ -82,7 +85,8 @@ var TIPlayer = React.createClass({
       currentTrack: {
         url: ''
       },
-      playing: false
+      playing: false,
+      isOpen: false
     }
   },
 
@@ -124,13 +128,18 @@ var TIPlayer = React.createClass({
   _onEnd: function() {
     this._playNextTrack();
   },
-
+  toggle: function() {
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
+  },
+  updateMenuState: function(isOpen) {
+      this.setState({ isOpen: isOpen });
+  },
   render: function() {
-
     var menu = <Menu navigator={this.props.navigator}/>;
 
     return (
-      <SideMenu menu={menu}>
         <View>
           <Home navigator={this.props.navigator} />
 
@@ -142,11 +151,10 @@ var TIPlayer = React.createClass({
                  paused={!this.state.playing}
                  resizeMode="contain"
                  repeat={false}
-                 style={styles.backgroundVideo}
+                 style={stylescss.backgroundVideo}
                  onLoad={this._onLoad}
                  onEnd={this._onEnd} /> : null }
         </View>
-      </SideMenu>
     );
   }
 });

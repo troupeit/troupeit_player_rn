@@ -5,8 +5,8 @@ var {
   Text,
   View,
 } = React;
-var styles = require('../utils/styles')
 
+var styles = require('../utils/styles')
 
 var Menu = React.createClass({
   about: function() {
@@ -16,8 +16,8 @@ var Menu = React.createClass({
   render: function() {
     return (
       <View style={styles.menu}>
-        <Text>Menu</Text>
-        <Text onPress={this.about}>About</Text>
+        <Text style={styles.menuitem}>Menu</Text>
+        <Text style={styles.menuitem} onPress={this.about}>About</Text>
       </View>
     );
   }
