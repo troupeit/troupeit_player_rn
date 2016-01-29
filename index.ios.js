@@ -7,6 +7,7 @@
 /* ES5 way */
 import React, {
   AppRegistry,
+  AsyncStorage, 
   Component,
   StyleSheet,
   Navigator,
@@ -27,6 +28,7 @@ var PlayerStore = require('./js/stores/player-store')
 var ListenerMixin = require('alt-mixins/ListenerMixin')
 var Menu = require('./js/components/menu')
 var CurrentTrack = require('./js/components/current-track')
+var config = require('./js/utils/config.js')
 
 var navigation = React.createClass ({
 
@@ -86,11 +88,27 @@ var TIPlayer = React.createClass({
         url: ''
       },
       playing: false,
-      isOpen: false
+      isOpen: false,
+      accessKey: null
+    }
+  },
+
+  async _loadInitialState() {
+    try {
+      var value = await AsyncStorage.getItem(config.storage_access_key);
+      if (value !== null){
+        this.setState({accessKey: value});
+        console.log('Recovered selection from disk: ' + value);
+      } else {
+        console.log('Initialized with no selection on disk.');
+      }
+    } catch (error) {
+      console.log('AsyncStorage error: ' + error.message);
     }
   },
 
   componentDidMount: function() {
+    this._loadInitialState().done();
     this.listenTo(PlayerStore, this._onChange)
   },
 
