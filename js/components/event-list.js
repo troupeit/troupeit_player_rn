@@ -2,8 +2,6 @@
 
 var React = require('react-native');
 var {
-  AlertIOS,
-  ActivityIndicatorIOS,
   AsyncStorage,
   AppRegistry,
   Navigator,
@@ -12,17 +10,50 @@ var {
   TouchableHighlight,
   TouchableOpacity,
   View,
+  ListView,
+  Netinfo
 } = React;
+
+var RefreshableListView = require('react-native-refreshable-listview');
 
 var styles = require('../utils/styles');
 var config = require('../utils/config.js');
+var TIEvent = require('../stores/TIEvent');
 
 var NavigationBar = require('react-native-navbar');
 
+var baseDataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id})
+
 var EventList = React.createClass({
+    getInitialState: function() { 
+      return { dataSource: baseDataSource.cloneWithRows(this.getMyEvents()) } 
+    }, 
+    loadMyEvents() {
+      return TIEvent.goFetch()
+    },
+    getMyEvents() {
+      return TIEvent.ordered()
+    },
+    componentDidMount: function() { 
+        var myEvents = this.getMyEvents()
+        if (!(myEvents && myEvents.length)) this.loadMyEvents()
+    },
+    renderEvent: function() { 
+     
+    },
     render: function() {
        return ( 
-                <Text>events</Text>
+               <View style={styles.homeContainer}>
+
+               <Text style={styles.welcome}>Your events</Text>
+
+               <RefreshableListView
+                  dataSource={this.state.dataSource}
+                  renderRow={this.renderEvent}
+                  loadData={this.loadMyEvents}
+                  refreshDescription="Refreshing events"
+               />
+               </View>
         );
   },
 

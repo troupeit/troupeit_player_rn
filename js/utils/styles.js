@@ -19,7 +19,7 @@ var screenHeight = Dimensions.get('window').height;
 
 var LABEL_COLOR = '#000000';
 var INPUT_COLOR = '#ffffff';
-var LINK_COLOR = '#dddddd';
+var LINK_COLOR = '#ffcc00';
 var ERROR_COLOR = '#a94442';
 var HELP_COLOR = '#999999';
 var BORDER_COLOR = '#cccccc';
@@ -122,10 +122,18 @@ var stylesheet = Object.freeze({
       marginBottom: 4
     }
   },
-  link: {
+  sublink: {
+    fontWeight: 'bold',
     color: LINK_COLOR,
     backgroundColor: 'transparent',
-    marginLeft: 10
+    marginLeft: 10,
+    shadowColor: "#000000",
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    shadowOffset: { 
+       height: 1,
+       width:  1, 
+    }
   },
   bgimage: {
     flex: 1,
@@ -199,7 +207,6 @@ var stylesheet = Object.freeze({
   centering: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#3D3C3A',
   },
   welcome: {
     fontSize: 20,
@@ -207,13 +214,48 @@ var stylesheet = Object.freeze({
     color: '#fff',
     backgroundColor: 'transparent',
     margin: 10,
+    shadowColor: "#000000",
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    shadowOffset: { 
+       height: 1,
+       width:  1, 
+    }
   },
-  welcomeerror: {
+  welcomeFinePrint: {
     fontSize: 14,
     justifyContent: 'flex-start',
     color: '#fff',
+    backgroundColor: 'transparent',
+    margin: 10,
+    shadowColor: "#000000",
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    shadowOffset: { 
+       height: 1,
+       width:  1, 
+    }
+  },
+  homePIN: {
+    fontSize: 40,
+    justifyContent: 'flex-start',
+    color: '#fff',
+    fontFamily: 'courier',
+    textAlign: 'center',
+    backgroundColor: '#000',
+    margin: 20,
+    padding: 20,
+  },
+  welcomeerror: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    justifyContent: 'flex-start',
+    textAlign: 'center',
+    color: '#fff',
     backgroundColor: 'red',
     margin: 10,
+    borderRadius: 8,
+    padding: 4
   },
   instructions: {
     textAlign: 'center',

@@ -16,16 +16,16 @@ var {
 
 var styles = require('../utils/styles');
 var config = require('../utils/config.js');
-
+var EventList = require("./event-list")
 var NavigationBar = require('react-native-navbar');
 
 var PairView = React.createClass({
-    _storesecret: function(val) { 
+    _storesecret(val) { 
         try {
             AsyncStorage.setItem(config.storage_access_key, val);
             this._appendMessage('Saved selection to disk: ' + val);
         } catch (error) {
-            this._appendMessage('AsyncStorage error: ' + error.message);
+            this._appendMessage('storesecret - AsyncStorage error: ' + error.message);
         }
     },
     componentDidMount: function()  {
@@ -35,16 +35,15 @@ var PairView = React.createClass({
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'Origin': '',
-                'Host': 'troupeit.com'
+                'Host': config.apiHost
             },
             body: JSON.stringify({
-                'pin': this.props.apikey
+                'pin': this.props.apikey.toLowerCase()
             })
         }            
         var $this = this;
 
-        console.log("start");
-        fetch('https://troupeit.com/apikeys/pair', obj)
+        fetch("https://" + config.apiHost + "/apikeys/pair", obj)
             .then((response) => response.json())
             .then((responseData) => {
                 console.log(responseData);
@@ -52,21 +51,17 @@ var PairView = React.createClass({
                     console.log("bad status");
                 } else {
                     $this._storesecret(responseData.secret);
-
-                    // jump to the eventlist
-                    var titleConfig = { 
-                      title: "Your Events"
-                    }
-
-                    $this.props.navigator.jumpTo({
-                      title: 'Your Events',
-                      component: EventList,
-                      navigationBar: <NavigationBar title={titleConfig} />
-                    });
+                    $this.props.setSecret(responseData.secret);
+                    return;
                 }
                 this.props.errorfunc(responseData.errors);
 
                 console.log($this.props);
+                $this.props.navigator.pop();
+            })
+            .catch((error) => {
+                console.warn(error);
+                this.props.errorfunc("Could not connect to troupeIT API");
                 $this.props.navigator.pop();
             });
     }, 

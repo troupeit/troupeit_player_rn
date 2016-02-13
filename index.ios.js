@@ -17,9 +17,9 @@ import React, {
 
 /* this is the old way of doing includes */ 
 
-var Home = require('./js/components/home');
+var config = require('./js/utils/config.js')
+
 var NavigationBar = require('react-native-navbar');
-var ShowList = require('./js/components/show-list');
 var stylescss = require('./js/utils/styles');
 var Video = require('react-native-video');
 var App = require('./js/app.js')
@@ -28,7 +28,9 @@ var PlayerStore = require('./js/stores/player-store')
 var ListenerMixin = require('alt-mixins/ListenerMixin')
 var Menu = require('./js/components/menu')
 var CurrentTrack = require('./js/components/current-track')
-var config = require('./js/utils/config.js')
+var Home = require('./js/components/home');
+var EventList = require('./js/components/event-list');
+var ShowList = require('./js/components/show-list');
 
 var navigation = React.createClass ({
 
@@ -45,7 +47,6 @@ var navigation = React.createClass ({
 
     return (
       <View style={stylescss.navContainer}>
-
         {navBar}
         <Component navigator={navigator} {...route.props} />
         <CurrentTrack />
@@ -89,7 +90,8 @@ var TIPlayer = React.createClass({
       },
       playing: false,
       isOpen: false,
-      accessKey: null
+      accessKey: null,
+      storageChecked: false
     }
   },
 
@@ -97,18 +99,20 @@ var TIPlayer = React.createClass({
     try {
       var value = await AsyncStorage.getItem(config.storage_access_key);
       if (value !== null){
-        this.setState({accessKey: value});
-        console.log('Recovered selection from disk: ' + value);
+          this.setState({accessKey: value});
+          this.setState({storageChecked: true});
+          console.log('Recovered selection from disk: ' + value);
       } else {
-        console.log('Initialized with no selection on disk.');
+          this.setState({storageChecked: true});
+          console.log('Initialized with no selection on disk.');
       }
     } catch (error) {
-      console.log('AsyncStorage error: ' + error.message);
+        console.log('AsyncStorage error: ' + error.message);
     }
   },
 
   componentDidMount: function() {
-    this._loadInitialState().done();
+    this._loadInitialState();
     this.listenTo(PlayerStore, this._onChange)
   },
 
@@ -157,11 +161,18 @@ var TIPlayer = React.createClass({
   render: function() {
     var menu = <Menu navigator={this.props.navigator}/>;
 
+    if (this.state.accessKey) { 
+      var startpage = <EventList navigator={this.props.navigator} accessKey={this.state.accessKey}/>;
+    } else {
+      if (this.state.storageChecked) {
+        var startpage = <Home navigator={this.props.navigator} accessKey={this.state.accessKey} refresh={this._loadInitialState}/>;
+      }
+    }
+
     return (
         <View>
-          <Home navigator={this.props.navigator} />
-
-          { this.state.currentTrack.url !== '' ?
+          {startpage}
+           { this.state.currentTrack.url !== '' ?
           <Video source={{uri: this.state.currentTrack.url}}
                  rate={1.0}
                  volume={1.0}
