@@ -14,6 +14,7 @@ var {
   TouchableOpacity,
   View,
 } = React;
+
 var styles = require('../utils/styles');
 var PlayerActions = require('../actions/player-actions')
 var Icon = require('react-native-icons');

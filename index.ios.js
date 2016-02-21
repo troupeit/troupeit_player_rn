@@ -1,7 +1,11 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
+ * TroupeIT Player
+ *
+ * (c) 2016 TroupeIT, Inc.
+ * John Adams <jna@retina.net>
+ *
+ **/
+
 'use strict';
 
 /* ES5 way */
@@ -18,20 +22,22 @@ import React, {
 /* this is the old way of doing includes */ 
 
 var config = require('./js/utils/config.js')
-
 var NavigationBar = require('react-native-navbar');
 var stylescss = require('./js/utils/styles');
 var Video = require('react-native-video');
-var App = require('./js/app.js')
+var Alt = require('./js/alt.js')
+
 var PlayerActions = require('./js/actions/player-actions')
 var PlayerStore = require('./js/stores/player-store')
+
+var UserActions = require('./js/actions/user-actions')
+var UserStore = require('./js/stores/user-store')
+
 var ListenerMixin = require('alt-mixins/ListenerMixin')
 var Menu = require('./js/components/menu')
 var CurrentTrack = require('./js/components/current-track')
 var Home = require('./js/components/home');
 var EventList = require('./js/components/event-list');
-var ShowList = require('./js/components/show-list');
-
 var navigation = React.createClass ({
 
   renderScene(route, navigator) {
@@ -85,9 +91,6 @@ var TIPlayer = React.createClass({
 
   getInitialState: function() {
     return {
-      currentTrack: {
-        url: ''
-      },
       playing: false,
       isOpen: false,
       accessKey: null,
@@ -95,94 +98,26 @@ var TIPlayer = React.createClass({
     }
   },
 
-  async _loadInitialState() {
-    try {
-      var value = await AsyncStorage.getItem(config.storage_access_key);
-      if (value !== null){
-          this.setState({accessKey: value});
-          this.setState({storageChecked: true});
-          console.log('Recovered selection from disk: ' + value);
-      } else {
-          this.setState({storageChecked: true});
-          console.log('Initialized with no selection on disk.');
-      }
-    } catch (error) {
-        console.log('AsyncStorage error: ' + error.message);
-    }
+  userChanged: function(foo) { 
+    this.setState({ accessKey: foo.User  });
   },
-
   componentDidMount: function() {
-    this._loadInitialState();
-    this.listenTo(PlayerStore, this._onChange)
+    UserStore.listen(this.userChanged);
+    UserActions.fetchUser();
   },
 
-  _onChange: function() {
-    this.setState({
-      currentTrack: {
-        url: PlayerStore.getState().url
-      },
-      playing: PlayerStore.getState().playing
-    })
-  },
-
-  _playNextTrack: function() {
-
-    var state = PlayerStore.getState(),
-        index,
-        url;
-
-    if(state.index === state.tracks.length -1 ) {
-      index = 0;
-      url = 'https://archive.org' + state.dir + '/' + state.tracks[0].name
-    } else {
-      index = Number(state.index) + 1;
-      url = 'https://archive.org' + state.dir + '/' + state.tracks[index].name
-    }
-
-    PlayerActions.update({
-      url: url,
-      index: index,
-      tracks: state.tracks,
-      dir: state.dir
-    })
-  },
-
-  _onEnd: function() {
-    this._playNextTrack();
-  },
-  toggle: function() {
-    this.setState({
-      isOpen: !this.state.isOpen,
-    });
-  },
-  updateMenuState: function(isOpen) {
-      this.setState({ isOpen: isOpen });
-  },
   render: function() {
     var menu = <Menu navigator={this.props.navigator}/>;
 
     if (this.state.accessKey) { 
-      var startpage = <EventList navigator={this.props.navigator} accessKey={this.state.accessKey}/>;
+      var startpage = <EventList navigator={this.props.navigator} accessKey={this.state.accessKey}/>; 
     } else {
-      if (this.state.storageChecked) {
-        var startpage = <Home navigator={this.props.navigator} accessKey={this.state.accessKey} refresh={this._loadInitialState}/>;
-      }
+      var startpage = <Home navigator={this.props.navigator} accessKey={this.state.accessKey} refresh={this._loadInitialState}/>;
     }
 
     return (
         <View>
           {startpage}
-           { this.state.currentTrack.url !== '' ?
-          <Video source={{uri: this.state.currentTrack.url}}
-                 rate={1.0}
-                 volume={1.0}
-                 muted={false}
-                 paused={!this.state.playing}
-                 resizeMode="contain"
-                 repeat={false}
-                 style={stylescss.backgroundVideo}
-                 onLoad={this._onLoad}
-                 onEnd={this._onEnd} /> : null }
         </View>
     );
   }

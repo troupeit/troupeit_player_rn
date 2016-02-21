@@ -19,6 +19,7 @@ var RefreshableListView = require('react-native-refreshable-listview');
 var styles = require('../utils/styles');
 var config = require('../utils/config.js');
 var TIEvent = require('../stores/TIEvent');
+var EventView = require('./eventview');
 
 var NavigationBar = require('react-native-navbar');
 
@@ -29,7 +30,7 @@ var EventList = React.createClass({
       return { dataSource: baseDataSource.cloneWithRows(this.getMyEvents()) } 
     }, 
     loadMyEvents() {
-      return TIEvent.goFetch()
+      return TIEvent.goFetch(this.props.accessKey)
     },
     getMyEvents() {
       return TIEvent.ordered()
@@ -38,13 +39,12 @@ var EventList = React.createClass({
         var myEvents = this.getMyEvents()
         if (!(myEvents && myEvents.length)) this.loadMyEvents()
     },
-    renderEvent: function() { 
-     
+    renderEvent: function(event) { 
+        return <EventView event={event} />
     },
     render: function() {
        return ( 
                <View style={styles.homeContainer}>
-
                <Text style={styles.welcome}>Your events</Text>
 
                <RefreshableListView

@@ -1,4 +1,4 @@
-var alt = require('../app');
+var alt = require('../alt');
 var PlayerActions = require('../actions/player-actions')
 
 class PlayerStore {

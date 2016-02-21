@@ -1,4 +1,4 @@
-var alt = require('../app')
+var alt = require('../alt')
 
 class PlayerActions {
 

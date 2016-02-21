@@ -3,7 +3,8 @@
 /* commonly reused configuration information */
 var config = Object.freeze({
 	storage_access_key: '@TroupeITPlayer:',
-  apiHost: 'dev.troupeit.com'
+    apiHost: 'https://dev.troupeit.com',
+    activationURL: 'https://dev.troupeit.com/activate'
 });
 
 module.exports = config;

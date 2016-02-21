@@ -30,6 +30,7 @@
 		A80393741C572EEE00E51E03 /* ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A80393731C572EEE00E51E03 /* ionicons.ttf */; };
 		A80393761C572EF300E51E03 /* zocial-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A80393751C572EF300E51E03 /* zocial-regular-webfont.ttf */; };
 		A803937E1C57329C00E51E03 /* libReactNativeIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A803937D1C57325100E51E03 /* libReactNativeIcons.a */; };
+		A8CEDD071C71C41D009D1F99 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A8CEDD061C71C386009D1F99 /* libRNDeviceInfo.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +125,13 @@
 			remoteGlobalIDString = 2F5A3EB81ACDBF8000439386;
 			remoteInfo = ReactNativeIcons;
 		};
+		A8CEDD051C71C386009D1F99 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A8CEDCF51C71C385009D1F99 /* RNDeviceInfo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DA5891D81BA9A9FC002B4DB2;
+			remoteInfo = RNDeviceInfo;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -160,6 +168,7 @@
 		A80393731C572EEE00E51E03 /* ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ionicons.ttf; sourceTree = "<group>"; };
 		A80393751C572EF300E51E03 /* zocial-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "zocial-regular-webfont.ttf"; sourceTree = "<group>"; };
 		A80393781C57325100E51E03 /* ReactNativeIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeIcons.xcodeproj; path = "../node_modules/react-native-icons/ios/ReactNativeIcons.xcodeproj"; sourceTree = "<group>"; };
+		A8CEDCF51C71C385009D1F99 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +184,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
+				A8CEDD071C71C41D009D1F99 /* libRNDeviceInfo.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
@@ -298,6 +308,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				A8CEDCF51C71C385009D1F99 /* RNDeviceInfo.xcodeproj */,
 				A803935C1C561CA100E51E03 /* RCTVideo.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -365,6 +376,14 @@
 			isa = PBXGroup;
 			children = (
 				A803937D1C57325100E51E03 /* libReactNativeIcons.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A8CEDCF61C71C385009D1F99 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A8CEDD061C71C386009D1F99 /* libRNDeviceInfo.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -486,6 +505,10 @@
 					ProductGroup = A80393791C57325100E51E03 /* Products */;
 					ProjectRef = A80393781C57325100E51E03 /* ReactNativeIcons.xcodeproj */;
 				},
+				{
+					ProductGroup = A8CEDCF61C71C385009D1F99 /* Products */;
+					ProjectRef = A8CEDCF51C71C385009D1F99 /* RNDeviceInfo.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -578,6 +601,13 @@
 			fileType = archive.ar;
 			path = libReactNativeIcons.a;
 			remoteRef = A803937C1C57325100E51E03 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A8CEDD061C71C386009D1F99 /* libRNDeviceInfo.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNDeviceInfo.a;
+			remoteRef = A8CEDD051C71C386009D1F99 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

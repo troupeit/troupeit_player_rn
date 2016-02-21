@@ -17,7 +17,6 @@ var {
 
 var config = require('../utils/config.js')
 var styles = require('../utils/styles');
-var PairView = require('./pairing');
 var NavigationBar = require('react-native-navbar');
 var Video = require('react-native-video');
 var TimerMixin = require('react-timer-mixin');
@@ -38,9 +37,9 @@ var Home = React.createClass({
       this.setState({secret: null});
       this._getNewPIN();
   },
-  _storeSecret(val) { 
+  _storeSecret(uid, secret) { 
       try {
-          AsyncStorage.setItem(config.storage_access_key, val);
+          AsyncStorage.setItem(config.storage_access_key + "login", uid + ":" + secret);
           console.log('Saved selection to disk: ' + val);
       } catch (error) {
           console.log('storesecret - AsyncStorage error: ' + error.message);
@@ -58,13 +57,14 @@ var Home = React.createClass({
           }
         }            
 
-      fetch("https://" + config.apiHost + "/apikeys/" + this.state.temppin + ".json", obj)
+      fetch(config.apiHost + "/apikeys/" + this.state.temppin + ".json", obj)
           .then((response) => response.json())
           .then((responseData) => {
               console.log(responseData);
 
               if (responseData.status == 'valid') { 
-                  $this._storeSecret(this.state.secret);
+                  console.log("got valid response, storing secret");
+                  $this._storeSecret(responseData.uid, this.state.secret);
                   $this.props.refresh();
               } else { 
                   /* if it fails... */
@@ -77,6 +77,9 @@ var Home = React.createClass({
           });
   },
   _getNewPIN() { 
+      console.log("Device Manufacturer", DeviceInfo.getManufacturer());  // e.g. Apple
+      console.log("Device Model", DeviceInfo.getModel());  // e.g. iPhone
+
       var obj = {  
           method: 'POST',
           headers: {
@@ -86,13 +89,12 @@ var Home = React.createClass({
               'Host': config.apiHost
           },
           body: JSON.stringify({
-              'name': 'troupeIT Player - ' + DeviceInfo.getModel()
+              'name': 'troupeIT Player - ' + DeviceInfo.getManufacturer() + ' ' + DeviceInfo.getModel()
           })
         }            
         var $this = this;
 
-        /* TODO: Loading symbol */
-        fetch("https://" + config.apiHost + "/apikeys.json", obj)
+        fetch(config.apiHost + "/apikeys.json", obj)
             .then((response) => response.json())
             .then((responseData) => {
                 console.log(responseData);
@@ -143,8 +145,8 @@ var Home = React.createClass({
         </Text>
 
         <Text style={styles.sublink}
-         onPress={() => LinkingIOS.openURL('https://troupeit.com/activate')}>
-         https://troupeit.com/activate
+         onPress={() => LinkingIOS.openURL(config.activationURL)}>
+         {config.activationURL}
          </Text>
         <Text style={styles.welcome}>
             when prompted, enter the activation code below. 
