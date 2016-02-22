@@ -56,8 +56,9 @@ var Home = React.createClass({
               'Host': config.apiHost
           }
         }            
+      console.log("about to fetch.");
 
-      fetch(config.apiHost + "/apikeys/" + this.state.temppin + ".json", obj)
+      fetch(config.apiURL + "/apikeys/" + this.state.temppin + ".json", obj)
           .then((response) => response.json())
           .then((responseData) => {
               console.log(responseData);
@@ -94,7 +95,7 @@ var Home = React.createClass({
         }            
         var $this = this;
 
-        fetch(config.apiHost + "/apikeys.json", obj)
+        fetch(config.apiURL + "/apikeys.json", obj)
             .then((response) => response.json())
             .then((responseData) => {
                 console.log(responseData);
