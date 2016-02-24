@@ -30,6 +30,7 @@
 		A80393741C572EEE00E51E03 /* ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A80393731C572EEE00E51E03 /* ionicons.ttf */; };
 		A80393761C572EF300E51E03 /* zocial-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A80393751C572EF300E51E03 /* zocial-regular-webfont.ttf */; };
 		A803937E1C57329C00E51E03 /* libReactNativeIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A803937D1C57325100E51E03 /* libReactNativeIcons.a */; };
+		A821D90D1C7D3E0E006EAA35 /* RCTPasteBoard in Resources */ = {isa = PBXBuildFile; fileRef = A821D90C1C7D3E0E006EAA35 /* RCTPasteBoard */; };
 		A8CEDD071C71C41D009D1F99 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A8CEDD061C71C386009D1F99 /* libRNDeviceInfo.a */; };
 /* End PBXBuildFile section */
 
@@ -168,6 +169,7 @@
 		A80393731C572EEE00E51E03 /* ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ionicons.ttf; sourceTree = "<group>"; };
 		A80393751C572EF300E51E03 /* zocial-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "zocial-regular-webfont.ttf"; sourceTree = "<group>"; };
 		A80393781C57325100E51E03 /* ReactNativeIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeIcons.xcodeproj; path = "../node_modules/react-native-icons/ios/ReactNativeIcons.xcodeproj"; sourceTree = "<group>"; };
+		A821D90C1C7D3E0E006EAA35 /* RCTPasteBoard */ = {isa = PBXFileReference; lastKnownFileType = folder; name = RCTPasteBoard; path = "../node_modules/react-native-pasteboard/RCTPasteBoard"; sourceTree = "<group>"; };
 		A8CEDCF51C71C385009D1F99 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -308,6 +310,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				A821D90C1C7D3E0E006EAA35 /* RCTPasteBoard */,
 				A8CEDCF51C71C385009D1F99 /* RNDeviceInfo.xcodeproj */,
 				A803935C1C561CA100E51E03 /* RCTVideo.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -628,6 +631,7 @@
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				A803936E1C572EDF00E51E03 /* Material-Design-Iconic-Font.ttf in Resources */,
 				A803936C1C572ED900E51E03 /* octicons.ttf in Resources */,
+				A821D90D1C7D3E0E006EAA35 /* RCTPasteBoard in Resources */,
 				A80393701C572EE600E51E03 /* FontAwesome.otf in Resources */,
 				A80393721C572EEB00E51E03 /* foundation-icons.ttf in Resources */,
 				A80393741C572EEE00E51E03 /* ionicons.ttf in Resources */,

@@ -21,6 +21,7 @@ var NavigationBar = require('react-native-navbar');
 var Video = require('react-native-video');
 var TimerMixin = require('react-timer-mixin');
 var DeviceInfo = require('react-native-device-info');
+var PasteBoard = require('react-native-pasteboard');
 
 var Home = React.createClass({
   mixins: [TimerMixin],
@@ -113,6 +114,11 @@ var Home = React.createClass({
     /* we'll only ever show this page if the index page couldn't find our accesskey */
     this._getNewPIN();
   },
+  copyCode() {
+    PasteBoard.copyText(this.state.temppin, (callback) => {
+      AlertIOS.alert('Alert', 'Link copied to clipboard!');
+    });
+  },
   render() {
     if (this.state.errorstr) {
       var errnode = ( <Text style={styles.welcomeerror}>{this.state.errorstr}</Text> );
@@ -122,7 +128,7 @@ var Home = React.createClass({
 
     if (this.state.temppin) { 
       var pinnode = ( 
-        <Text style={styles.homePIN}>
+        <Text style={styles.homePIN} onPress={this.copyCode}>
            {this.state.temppin}
         </Text>
       );
