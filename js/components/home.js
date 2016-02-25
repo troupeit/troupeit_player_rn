@@ -3,6 +3,7 @@
 var React = require('react-native');
 var {
   ActivityIndicatorIOS,
+  AlertIOS,
   AsyncStorage,
   DeviceEventEmitter,
   Navigator,
@@ -21,7 +22,7 @@ var NavigationBar = require('react-native-navbar');
 var Video = require('react-native-video');
 var TimerMixin = require('react-timer-mixin');
 var DeviceInfo = require('react-native-device-info');
-var PasteBoard = require('react-native-pasteboard');
+var Clipboard = require('react-native-clipboard');
 
 var Home = React.createClass({
   mixins: [TimerMixin],
@@ -115,9 +116,8 @@ var Home = React.createClass({
     this._getNewPIN();
   },
   copyCode() {
-    PasteBoard.copyText(this.state.temppin, (callback) => {
-      AlertIOS.alert('Alert', 'Link copied to clipboard!');
-    });
+    Clipboard.set(this.state.temppin);
+    AlertIOS.alert('Alert', 'Copied.');
   },
   render() {
     if (this.state.errorstr) {
