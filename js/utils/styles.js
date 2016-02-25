@@ -123,10 +123,11 @@ var stylesheet = Object.freeze({
     }
   },
   sublink: {
+    textAlign: 'center',
     fontWeight: 'bold',
     color: LINK_COLOR,
     backgroundColor: 'transparent',
-    marginLeft: 10,
+    marginLeft: 10, marginRight: 10,
     shadowColor: "#000000",
     shadowOpacity: 0.8,
     shadowRadius: 2,
@@ -182,6 +183,15 @@ var stylesheet = Object.freeze({
     alignSelf: 'stretch',
     justifyContent: 'center'
   },
+  containerBottom: {
+    height: 40,
+    flex: 1, 
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    justifyContent: 'flex-end',
+          backgroundColor: 'transparent'
+
+  },
   backgroundVideo: {
     position: 'absolute',
     top: 0,
@@ -199,21 +209,24 @@ var stylesheet = Object.freeze({
   },
   homeContainer: {
     flex: 1,
-    padding: 20,
+    marginTop: 60,
+    padding: 0,
     justifyContent: 'flex-start',
     backgroundColor: 'black',
-    height: (screenHeight-100)
+    height: (screenHeight)
   },
   centering: {
     alignItems: 'center',
     justifyContent: 'center',
   },
   welcome: {
+    textAlign: 'center',
     fontSize: 20,
-    justifyContent: 'flex-start',
     color: '#fff',
     backgroundColor: 'transparent',
-    margin: 10,
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: 10,
     shadowColor: "#000000",
     shadowOpacity: 0.8,
     shadowRadius: 2,
@@ -221,13 +234,15 @@ var stylesheet = Object.freeze({
        height: 1,
        width:  1, 
     }
+
   },
   welcomeFinePrint: {
     fontSize: 14,
     justifyContent: 'flex-start',
     color: '#fff',
     backgroundColor: 'transparent',
-    margin: 10,
+    marginLeft: 10,
+    marginRight: 10,
     shadowColor: "#000000",
     shadowOpacity: 0.8,
     shadowRadius: 2,
@@ -270,14 +285,14 @@ var stylesheet = Object.freeze({
     marginLeft: 15,
   },
   navBar: {
-    backgroundColor: 'white',
+    backgroundColor: '#333333'
   },
   navBarText: {
     fontSize: 16,
     marginVertical: 10,
   },
   navBarTitleText: {
-    color: 'blue',
+    color: 'white',
     fontWeight: '500',
     marginVertical: 9,
   },

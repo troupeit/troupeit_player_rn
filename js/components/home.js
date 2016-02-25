@@ -142,7 +142,6 @@ var Home = React.createClass({
       );
     }
 
-    /* we're not signed in, so show the welcome page */
     return (
       <View style={styles.homeContainer}>
       <Image source={require('../../images/home-bg.jpg')} style={styles.bgimage}>
@@ -154,21 +153,20 @@ var Home = React.createClass({
         <Text style={styles.sublink}
          onPress={() => LinkingIOS.openURL(config.activationURL)}>
          {config.activationURL}
-         </Text>
-        <Text style={styles.welcome}>
-            when prompted, enter the activation code below. 
         </Text>
 
         {errnode}
         {pinnode}
 
+        <View style={styles.containerBottom}>
         <Text style={styles.welcomeFinePrint}>
-            This code is valid for one hour. When activation completes, you will be taken to your events dashboard.
+          When activation completes, you will be taken to your events dashboard.
         </Text>
 
         <TouchableHighlight style={styles.button} onPress={this._buttonPress} underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Get a new code</Text>
         </TouchableHighlight>
+        </View>
       </Image>
       </View>
     );
