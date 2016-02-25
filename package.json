@@ -6,6 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
+    "@exponent/react-native-navigator": "^0.4.2",
     "alt": "^0.18.1",
     "alt-mixins": "1.0.0",
     "crypto-js": "^3.1.6",
@@ -23,6 +24,7 @@
     "react-native-icons": "^0.7.1",
     "react-native-navbar": "^1.1.7",
     "react-native-refreshable-listview": "^1.3.0",
+    "react-native-router-flux": "^2.3.1",
     "react-native-side-menu": "react-native-fellowship/react-native-side-menu",
     "react-native-video": "^0.6.1",
     "react-timer-mixin": "^0.13.3",

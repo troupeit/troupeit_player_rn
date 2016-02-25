@@ -136,7 +136,7 @@ var Home = React.createClass({
       var pinnode = ( 
          <ActivityIndicatorIOS
             animating={this.state.animating}
-            style={[styles.centering, {height: 80}]}
+            style={[styles.centering, {height: 120}]}
             size="large"
          /> 
       );

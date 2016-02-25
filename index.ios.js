@@ -8,120 +8,70 @@
 
 'use strict';
 
-/* ES5 way */
 import React, {
-  AppRegistry,
-  AsyncStorage, 
-  Component,
-  StyleSheet,
-  Navigator,
-  Text,
-  View
-} from 'react-native';
+    AppRegistry, 
+    AsyncStorage, 
+    Navigator,
+    StyleSheet, 
+    Text,
+    View } from 'react-native';
 
-/* this is the old way of doing includes */ 
+import config from './js/utils/config.js';
+import stylescss from './js/utils/styles';
+import Alt from './js/alt.js';
+import {Router, Route, Schema, Animations, TabBar} from 'react-native-router-flux'
+import UserActions from './js/actions/user-actions';
+import UserStore from './js/stores/user-store';
+import Menu from './js/components/menu';
 
-var config = require('./js/utils/config.js')
-var NavigationBar = require('react-native-navbar');
-var stylescss = require('./js/utils/styles');
-var Video = require('react-native-video');
-var Alt = require('./js/alt.js')
+import Home from './js/components/home';
+import EventList from './js/components/event-list';
 
-var PlayerActions = require('./js/actions/player-actions')
-var PlayerStore = require('./js/stores/player-store')
+export default class TIPlayer extends React.Component {
+    constructor(props) {  
+	super(props);
+	this.state =  {
+	    playing: false,
+	    isOpen: false,
+	    accessKey: null,
+	    storageChecked: false
+	}
 
-var UserActions = require('./js/actions/user-actions')
-var UserStore = require('./js/stores/user-store')
-
-var ListenerMixin = require('alt-mixins/ListenerMixin')
-var Menu = require('./js/components/menu')
-var CurrentTrack = require('./js/components/current-track')
-var Home = require('./js/components/home');
-var EventList = require('./js/components/event-list');
-var navigation = React.createClass ({
-
-  renderScene(route, navigator) {
-    var Component = route.component;
-    var navBar = route.navigationBar;
-
-    if (navBar) {
-      navBar = React.cloneElement(navBar, {
-        navigator: navigator,
-        route: route
-      });
+	// bind this to our methods for acccess to state and props. 
+	this.render = this.render.bind(this);
+	this.userChanged = this.userChanged.bind(this);
     }
 
-    return (
-      <View style={stylescss.navContainer}>
-        {navBar}
-        <Component navigator={navigator} {...route.props} />
-        <CurrentTrack />
-      </View>
-    );
+    userChanged(foo) { 
+	this.setState({ accessKey: foo.User  });
+    }
 
-  },
+    componentDidMount() { 
+	UserStore.listen(this.userChanged);
+	UserActions.fetchUser();
+    }
 
-  render: function() {
-    var titleConfig = {
-      title: 'troupeIT Player',
-      tintColor: '#bbbbbb'
+    render() { 
+	var menu = <Menu navigator={this.props.navigator}/>;
+	
+	if (this.state.accessKey) { 
+	    var startpage = <EventList navigator={this.props.navigator} accessKey={this.state.accessKey}/>; 
+	} else {
+	    var startpage = <Home navigator={this.props.navigator} accessKey={this.state.accessKey} refresh={this._loadInitialState}/>;
+	}
+	
+	return (
+		<Router hideNavBar={true}>
+                <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
+		<Route name="home" schema="modal">
+                   <Router>
+                        <Route name="login" component={Home} initial={true} wrapRouter={true} title="Launch" schema="modal"/>
+                   </Router>
+                 </Route>
+		</Router>
+		);
     };
 
-    return (
-      <Navigator
-        ref={(navigator) => {
-          this._navigator = navigator;
-        }}
-        renderScene={this.renderScene}
-        style={stylescss.navContainer}
-        configureScene={(route) => ({
-          ...route.sceneConfig || Navigator.SceneConfigs.FloatFromRight
-        })}
-        initialRoute={{
-          component: TIPlayer,
-          navigationBar: <NavigationBar tintColor="#222222" title={titleConfig} hidePrev={true} prevTitle='haha' />
-        }}/>
-    );
-  },
-});
+}
 
-/* This is the main player page, triggered by navigation */
-var TIPlayer = React.createClass({
-  mixins: [ListenerMixin],
-
-  getInitialState: function() {
-    return {
-      playing: false,
-      isOpen: false,
-      accessKey: null,
-      storageChecked: false
-    }
-  },
-
-  userChanged: function(foo) { 
-    this.setState({ accessKey: foo.User  });
-  },
-  componentDidMount: function() {
-    UserStore.listen(this.userChanged);
-    UserActions.fetchUser();
-  },
-
-  render: function() {
-    var menu = <Menu navigator={this.props.navigator}/>;
-
-    if (this.state.accessKey) { 
-      var startpage = <EventList navigator={this.props.navigator} accessKey={this.state.accessKey}/>; 
-    } else {
-      var startpage = <Home navigator={this.props.navigator} accessKey={this.state.accessKey} refresh={this._loadInitialState}/>;
-    }
-
-    return (
-        <View>
-          {startpage}
-        </View>
-    );
-  }
-});
-
-
-AppRegistry.registerComponent('troupeit_player_rn', () => navigation);
+AppRegistry.registerComponent('troupeit_player_rn', () => TIPlayer);
