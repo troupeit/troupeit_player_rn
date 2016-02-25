@@ -30,7 +30,7 @@
 		A80393741C572EEE00E51E03 /* ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A80393731C572EEE00E51E03 /* ionicons.ttf */; };
 		A80393761C572EF300E51E03 /* zocial-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A80393751C572EF300E51E03 /* zocial-regular-webfont.ttf */; };
 		A803937E1C57329C00E51E03 /* libReactNativeIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A803937D1C57325100E51E03 /* libReactNativeIcons.a */; };
-		A821D90D1C7D3E0E006EAA35 /* RCTPasteBoard in Resources */ = {isa = PBXBuildFile; fileRef = A821D90C1C7D3E0E006EAA35 /* RCTPasteBoard */; };
+		A88A74321C7DB78000C0CD9D /* libRNClipboard.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A88A74311C7DB52700C0CD9D /* libRNClipboard.a */; };
 		A8CEDD071C71C41D009D1F99 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A8CEDD061C71C386009D1F99 /* libRNDeviceInfo.a */; };
 /* End PBXBuildFile section */
 
@@ -126,6 +126,13 @@
 			remoteGlobalIDString = 2F5A3EB81ACDBF8000439386;
 			remoteInfo = ReactNativeIcons;
 		};
+		A88A74301C7DB52700C0CD9D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A88A742C1C7DB52700C0CD9D /* RNClipboard.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 93D925B51B577A3A0021F250;
+			remoteInfo = RNClipboard;
+		};
 		A8CEDD051C71C386009D1F99 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A8CEDCF51C71C385009D1F99 /* RNDeviceInfo.xcodeproj */;
@@ -169,7 +176,7 @@
 		A80393731C572EEE00E51E03 /* ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ionicons.ttf; sourceTree = "<group>"; };
 		A80393751C572EF300E51E03 /* zocial-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "zocial-regular-webfont.ttf"; sourceTree = "<group>"; };
 		A80393781C57325100E51E03 /* ReactNativeIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeIcons.xcodeproj; path = "../node_modules/react-native-icons/ios/ReactNativeIcons.xcodeproj"; sourceTree = "<group>"; };
-		A821D90C1C7D3E0E006EAA35 /* RCTPasteBoard */ = {isa = PBXFileReference; lastKnownFileType = folder; name = RCTPasteBoard; path = "../node_modules/react-native-pasteboard/RCTPasteBoard"; sourceTree = "<group>"; };
+		A88A742C1C7DB52700C0CD9D /* RNClipboard.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNClipboard.xcodeproj; path = "../node_modules/react-native-clipboard/RNClipboard.xcodeproj"; sourceTree = "<group>"; };
 		A8CEDCF51C71C385009D1F99 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -189,6 +196,7 @@
 				A8CEDD071C71C41D009D1F99 /* libRNDeviceInfo.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
+				A88A74321C7DB78000C0CD9D /* libRNClipboard.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
@@ -310,7 +318,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				A821D90C1C7D3E0E006EAA35 /* RCTPasteBoard */,
+				A88A742C1C7DB52700C0CD9D /* RNClipboard.xcodeproj */,
 				A8CEDCF51C71C385009D1F99 /* RNDeviceInfo.xcodeproj */,
 				A803935C1C561CA100E51E03 /* RCTVideo.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -379,6 +387,14 @@
 			isa = PBXGroup;
 			children = (
 				A803937D1C57325100E51E03 /* libReactNativeIcons.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A88A742D1C7DB52700C0CD9D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A88A74311C7DB52700C0CD9D /* libRNClipboard.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -509,6 +525,10 @@
 					ProjectRef = A80393781C57325100E51E03 /* ReactNativeIcons.xcodeproj */;
 				},
 				{
+					ProductGroup = A88A742D1C7DB52700C0CD9D /* Products */;
+					ProjectRef = A88A742C1C7DB52700C0CD9D /* RNClipboard.xcodeproj */;
+				},
+				{
 					ProductGroup = A8CEDCF61C71C385009D1F99 /* Products */;
 					ProjectRef = A8CEDCF51C71C385009D1F99 /* RNDeviceInfo.xcodeproj */;
 				},
@@ -606,6 +626,13 @@
 			remoteRef = A803937C1C57325100E51E03 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		A88A74311C7DB52700C0CD9D /* libRNClipboard.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNClipboard.a;
+			remoteRef = A88A74301C7DB52700C0CD9D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		A8CEDD061C71C386009D1F99 /* libRNDeviceInfo.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -631,7 +658,6 @@
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				A803936E1C572EDF00E51E03 /* Material-Design-Iconic-Font.ttf in Resources */,
 				A803936C1C572ED900E51E03 /* octicons.ttf in Resources */,
-				A821D90D1C7D3E0E006EAA35 /* RCTPasteBoard in Resources */,
 				A80393701C572EE600E51E03 /* FontAwesome.otf in Resources */,
 				A80393721C572EEB00E51E03 /* foundation-icons.ttf in Resources */,
 				A80393741C572EEE00E51E03 /* ionicons.ttf in Resources */,
