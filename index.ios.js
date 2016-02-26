@@ -33,7 +33,7 @@ export default class TIPlayer extends React.Component {
 		this.state =  {
 	   	 playing: false,
 	   	 isOpen: false,
-	   	 accessKey: null,
+	   	 currentUser: null,
 	   	 storageChecked: false
 		}
 
@@ -44,11 +44,11 @@ export default class TIPlayer extends React.Component {
 
     userChanged(userdata) { 
 	console.log(userdata);
-	this.setState({ accessKey: userdata.User  });
+	this.setState({ currentUser: userdata.User  });
     }
 
     componentDidMount() { 
-       UserStore.listen(this.userChanged);  
+       UserStore.listen(this.userChanged);
        UserActions.fetchUser();
     }
 

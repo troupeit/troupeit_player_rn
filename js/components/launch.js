@@ -11,14 +11,17 @@ var {View,
     } = React;
 
 import config from '../utils/config.js';
+import UserActions from '../actions/user-actions';
+import UserStore from '../stores/user-store';
 
 var styles = require('../utils/styles');
 var Actions = require('react-native-router-flux').Actions;
 var ApiUtils = require('../utils/ApiUtils');
 var Launch = React.createClass({
-  _validLogin() { 
-      Actions.eventList();
+  _validLogin(key) { 
+      Actions.eventList({currentUser: key});
       Actions.dismiss();
+      UserActions.updateUser(key);
   },
   _invalidLogin() { 
       Actions.activateModal();
@@ -44,7 +47,7 @@ var Launch = React.createClass({
 	     if (responseData.error) {
 		 this._invalidLogin();
 	     } else {
-		 this._validLogin();
+		 this._validLogin(key);
 	     }
 	  }).bind(this);
     }

@@ -30,7 +30,7 @@ var EventList = React.createClass({
       return { dataSource: baseDataSource.cloneWithRows(this.getMyEvents()) } 
     }, 
     loadMyEvents() {
-      return TIEvent.goFetch(this.props.accessKey)
+      return TIEvent.goFetch(this.props.currentUser)
     },
     getMyEvents() {
       return TIEvent.ordered()
