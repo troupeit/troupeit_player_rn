@@ -10,7 +10,6 @@
 
 import React, {
     AppRegistry,
-    AsyncStorage,
     Navigator,
     StyleSheet, 
     Text,

@@ -36,9 +36,8 @@ var Launch = React.createClass({
       Actions.dismiss();
     } else { 
       /* we got a key. Is this key any good? */
-	console.log("testing key " + key);
+
 	var obj = ApiUtils.loginHeaders('GET', key); 
-	console.log("ok");
 	
 	fetch(config.apiURL + "/users/me.json", obj)
 	  .then((response) => response.json())
