@@ -1,7 +1,9 @@
 // ApiUtils.js
+import config from '../utils/config.js';
 
-var ApiUtils = {  
-  checkStatus: function(response) {
+class ApiUtils { 
+
+  checkStatus(response) {
     // https://github.com/github/fetch
     if (response.status >= 200 && response.status < 300) {
       return response;
@@ -12,7 +14,20 @@ var ApiUtils = {
       throw error;
     }
   }
-};
 
-export { ApiUtils as default };  
+  static loginHeaders(method, key) {
+	return {  
+	    method: 'GET',
+	    headers: {
+		'Accept': 'application/json',
+		'Content-Type': 'application/json',
+		'X-Auth': key,
+		'Host': config.apiHost,
+		'User-Agent': 'troupeIT player beta v0.1'
+	    }
+	}
+  }
+}
+
+module.exports = ApiUtils;
 

@@ -16,7 +16,7 @@ var {
   LinkingIOS
 } = React;
 
-var config = require('../utils/config.js')
+var config = require('../utils/config.js');
 var styles = require('../utils/styles');
 var NavigationBar = require('react-native-navbar');
 var Video = require('react-native-video');
@@ -24,7 +24,9 @@ var TimerMixin = require('react-timer-mixin');
 var DeviceInfo = require('react-native-device-info');
 var Clipboard = require('react-native-clipboard');
 
-var Home = React.createClass({
+import {Actions} from 'react-native-router-flux'
+
+var Activate = React.createClass({
   mixins: [TimerMixin],
   getInitialState() {
     return {
@@ -46,6 +48,7 @@ var Home = React.createClass({
       } catch (error) {
           console.log('storesecret - AsyncStorage error: ' + error.message);
       }
+      /* update the user store! */
   },
   _checkActivationStatus() { 
       var $this = this;
@@ -68,7 +71,8 @@ var Home = React.createClass({
               if (responseData.status == 'valid') { 
                   console.log("got valid response, storing secret");
                   $this._storeSecret(responseData.uid, this.state.secret);
-                  $this.props.refresh();
+		  Actions.dismiss;
+		  Actions.eventList();
               } else { 
                   /* if it fails... */
                   $this.setTimeout(() => { $this._checkActivationStatus(); }, 2000);
@@ -112,11 +116,12 @@ var Home = React.createClass({
             });
   },
   componentDidMount() {
-    /* we'll only ever show this page if the index page couldn't find our accesskey */
     this._getNewPIN();
   },
   copyCode() {
+    /* user clicked on our code */
     Clipboard.set(this.state.temppin);
+
     AlertIOS.alert('Alert', 'Copied.');
   },
   render() {
@@ -174,4 +179,4 @@ var Home = React.createClass({
 
 });
 
-module.exports = Home;
+module.exports = Activate;
