@@ -54,7 +54,6 @@ var EventList = React.createClass({
   render: function() {
        return ( 
                <View style={styles.homeContainer}>
-               <Text style={styles.welcome}>Your events</Text>
     <ListView
       dataSource={this.state.dataSource}
       renderRow={(rowData) => this.renderEvent(rowData)}
