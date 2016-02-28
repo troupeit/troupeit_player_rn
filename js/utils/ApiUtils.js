@@ -16,14 +16,14 @@ class ApiUtils {
   }
 
   static loginHeaders(method, key) {
-	return {  
-	    method: 'GET',
-	    headers: {
-		'Accept': 'application/json',
-		'Content-Type': 'application/json',
-		'X-Auth': key,
-		'Host': config.apiHost,
-		'User-Agent': 'troupeIT player beta v0.1'
+	   return {  
+	     method: 'GET',
+	     headers: {
+		    'Accept': 'application/json',
+		    'Content-Type': 'application/json',
+		    'X-Auth': key,
+		    'Host': config.apiHost,
+		    'User-Agent': 'troupeIT player beta v0.1'
 	    }
 	}
   }

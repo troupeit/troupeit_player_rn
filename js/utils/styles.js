@@ -234,7 +234,6 @@ var stylesheet = Object.freeze({
        height: 1,
        width:  1, 
     }
-
   },
   welcomeFinePrint: {
     fontSize: 14,
@@ -304,6 +303,24 @@ var stylesheet = Object.freeze({
   },
   navBarButtonText: {
     color: 'blue'
+  },
+  eventListItemView: { 
+    backgroundColor: '#000',
+    paddingTop: 5,
+    paddingBottom: 5,
+    borderBottomColor: '#333',
+    borderBottomWidth: 1,
+    borderStyle: 'solid'
+  },
+  eventListItemTitle: { 
+    color: '#fff',
+  },
+  eventListItemDate: { 
+    color: '#fff',
+  },
+  eventListItemCompany: { 
+    fontSize: 9,
+    color: '#ccc',
   },
   scene: {
     flex: 1,

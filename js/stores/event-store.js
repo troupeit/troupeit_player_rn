@@ -1,34 +1,43 @@
 var alt = require('../alt');
 import ApiUtils from "../utils/ApiUtils"
 var config = require('../utils/config.js');
+var EventActions = require('../actions/event-actions')
 
 /* 
  * take a look at ( for dealing with ajax in stores ) tomorrow... 
  * https://stackoverflow.com/questions/26632415/where-should-ajax-request-be-made-in-flux-app 
  */
 class EventStore {
+  constructor() {
+   this.eventList = [];
+   //this.on('init', this.bootstrap);
+   //this.on('bootstrap', this.bootstrap);
 
-  get(accessKey) {
-      console.log('fetch events');
-      var obj = ApiUtils.loginHeaders('GET',accessKey);
+   this.bindListeners({
+       handleFetchEvents: EventActions.FETCH_EVENTS,
+       handleFetchEventsComplete: EventActions.FETCH_EVENTS_COMPLETE,
+       handleFetchEventsError: EventActions.FETCH_EVENTS_ERROR,
+   });
+  }
 
-      return fetch(config.apiURL + "/events.json", obj)
-          .then((response) => response.json() )
-          .then((responseData) => {
-              console.log("back from fetch")
+  handleFetchEvents() {
+    console.log("hfe");
+    this.eventList = [];
+  }
+ 
+  handleFetchEventsComplete(eventList) {
+    console.log("hfec");
+    this.eventList = eventList;
+  }
 
-              /* TODO: handle invalid auth */
-              console.log(responseData)
-              this.reset(responseData)
-              eventlist = responseData
-              this.emitChange()
-          })
-          .catch((error) => {
-              console.log("Error was" + error);
-              this.setState({'errorstr' : 'Could not connect to troupeIT API'});
-          });
+  handleFetchEventsError(error) {
+    console.log("hfee");
+    this.error = error;
+  }
 
-    }
+  getState() {
+    return this.getState()
+  }
 
 }
 
