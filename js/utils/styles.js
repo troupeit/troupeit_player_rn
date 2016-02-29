@@ -304,10 +304,16 @@ var stylesheet = Object.freeze({
   navBarButtonText: {
     color: 'blue'
   },
-  eventListItemView: { 
-    backgroundColor: '#000',
-    paddingTop: 5,
-    paddingBottom: 5,
+  eventListItemView_even: { 
+    padding: 10,
+    backgroundColor: '#000033',
+    borderBottomColor: '#333',
+    borderBottomWidth: 1,
+    borderStyle: 'solid'
+  },
+  eventListItemView_odd: { 
+    padding: 10,
+    backgroundColor: '#000044',
     borderBottomColor: '#333',
     borderBottomWidth: 1,
     borderStyle: 'solid'
@@ -321,6 +327,11 @@ var stylesheet = Object.freeze({
   eventListItemCompany: { 
     fontSize: 9,
     color: '#ccc',
+  },
+  eventDetailNavStyle: { 
+    fontSize: 9,
+    color: 'darkslateblue',
+    tintColor: 'darkslateblue',
   },
   scene: {
     flex: 1,

@@ -20,7 +20,7 @@ class EventActions {
 
     var headers = ApiUtils.loginHeaders('GET',accessKey);
 
-        return fetch(config.apiURL + "/events.json", headers)
+        return fetch(config.apiURL + "/events.json?company=all", headers)
           .then((response) => response.json() )
           .then((responseData) => {
               console.log("back from fetch");

@@ -25,6 +25,7 @@ import Error from './js/components/error'
 import Activate from './js/components/activate';
 import Launch from './js/components/launch';
 import EventList from './js/components/event-list';
+import EventDetail from './js/components/event-detail';
 
 export default class TIPlayer extends React.Component {
     constructor(props) {  
@@ -58,15 +59,15 @@ export default class TIPlayer extends React.Component {
 		   titleStyle={stylescss.navBarTitleText}
 		   hideNavBar={false}
 		   >
-		  <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
-           	  <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
-           	  <Schema name="withoutAnimation"/>
+		   <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
+           <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
+           <Schema name="withoutAnimation"/>
 		  
 		  <Route name="launchModal" schema="modal" initial={true}>
 		    <Router>
 		      <Route name="launch" component={Launch} wrapRouter={true} title="" schema="modal"/>
 		    </Router>
-                  </Route>
+          </Route>
 		  
   		  <Route name="activateModal" schema="modal" type="replace" title="troupeIT Player">
    		    <Router>
@@ -74,8 +75,19 @@ export default class TIPlayer extends React.Component {
 		    </Router>
 		  </Route>
 
-                  <Route name="error" component={Error} title="Error" type="modal"/>
-		  <Route name="eventList" component={EventList} title="Events" type="replace" schema="default">
+          <Route name="error" component={Error} title="Error" type="modal"/>
+		  <Route name="eventList" 
+		     component={EventList} 
+		     title="Events" 
+		     type="replace" 
+		     schema="default">
+		  </Route>
+		  <Route name="eventDetail" 
+		     component={EventDetail} 
+		     title="Detail" 
+		     schema="default"
+		     leftTitle=" "
+		     leftButtonStyle={stylescss.eventDetailNavStyle}>	     
 		  </Route>
 		</Router>
 		);
