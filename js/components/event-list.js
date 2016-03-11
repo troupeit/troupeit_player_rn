@@ -50,7 +50,7 @@ var EventList = React.createClass({
   _ItemClick: function(selectedEvent) { 
     console.log("click");
     console.log(selectedEvent);
-    Actions.eventDetail(selectedEvent);
+    Actions.eventDetail({event: selectedEvent, title: selectedEvent.title, currentUser: this.props.currentUser});
   },
 
   renderEvent: function(event) {

@@ -127,7 +127,8 @@ var stylesheet = Object.freeze({
     fontWeight: 'bold',
     color: LINK_COLOR,
     backgroundColor: 'transparent',
-    marginLeft: 10, marginRight: 10,
+    marginLeft: 10, 
+    marginRight: 10,
     shadowColor: "#000000",
     shadowOpacity: 0.8,
     shadowRadius: 2,
@@ -270,11 +271,6 @@ var stylesheet = Object.freeze({
     margin: 10,
     borderRadius: 8,
     padding: 4
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
   messageText: {
     fontSize: 17,

@@ -28,7 +28,7 @@ class EventActions {
           })
           .catch((error) => {
               console.log("Error was" + error);
-              this.fetchEventsFailed(error);
+              this.fetchEventsError(error);
           });
   }
 

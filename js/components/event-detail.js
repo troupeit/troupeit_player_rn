@@ -20,6 +20,8 @@ var config = require('../utils/config.js');
 
 var EventStore = require('../stores/event-store');
 var EventActions = require('../actions/event-actions');
+var ShowStore = require('../stores/show-store');
+var ShowActions = require('../actions/show-actions');
 
 var Actions = require('react-native-router-flux').Actions;
 
@@ -32,18 +34,34 @@ var base64Calicon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAA
 var base64Listicon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABCklEQVRoQ+2X7QnCMBiEn06gG6gTqJPpCLqJG6kb6AS6gZIfhVJUkvRCJJzQf2/uzX20hx2N/LpGeGAi/+akHbEjhRQYRusMbEZ7LsC20G4p7JDI6wtyP7MHdsBSeoN8sBtwBE4BIoXIA5jn7y1yMpBZpRJ5ArMi18kHvfcJSXEkRCs8i/y90pOBxOFTtMKLvR6tun74AEhvowJzIaqUVOHYEZWSKhw3u0rJCThudjf7hPj8OupmLySsBtaFqNFRh9KkI/7PrgtIEpKb3c2eFJj4YTd7vFYVJpvskQo66lY26YibXReQJCQ3u5s9KTDxw272eK0qTDbZIxV01K20IzotNUh2RKOjDuUN5IdIM7DXGD4AAAAASUVORK5CYII=";
 var EventDetail = React.createClass({
   getInitialState: function() {
-    return {}
+    return { 
+      showdata: null,
+      dataSource: ds.cloneWithRows([]), 
+      currentTab: 0
+    }
   },
-  reloadEvents: function() {
-    console.log("reloadevents");
-    return EventActions.fetchEvents(this.props.currentUser);
-  },
+  componentDidMount: function() {
+    this.unlisten = ShowStore.listen((data) => {
+      this.setState({showdata: data});
+      this.setState({dataSource: ds.cloneWithRows(data.show.show_items) });
+    });
 
+    // goddammmit, how do I load many events?
+    ShowActions.fetchShow(this.props.currentUser, this.props.event.shows[0]);
+  },
+  componentWillUnmount: function() { 
+    this.unlisten();
+  },
+  renderCue: function(cue) { 
+     <Text style={styles.eventListItemCompany}>
+     test
+     </Text>
+  },
   render: function() {
     var $this = this;
 
     // render a tab for each day of the event
-    var tabs = this.props.shows.map(function(sh) { 
+    var tabs = this.props.event.shows.map(function(sh) { 
       return (<TabBarIOS.Item
                      key={sh._id.$oid}
                      title={moment(sh.door_time).format('ll')}
@@ -59,15 +77,26 @@ var EventDetail = React.createClass({
     });
 
     // render the entire view
+
+    if (! this.state.showdata) {
+      return <Text style={styles.welcome}>Fetching show...</Text>
+    } 
+
+
     return ( 
       <View style={styles.homeContainer}>
+         <Text style={styles.welcome}>{this.state.showdata.show.title}</Text>
+         <ListView
+           dataSource={this.state.dataSource}
+           renderRow={(rowData) => this.renderCue(rowData)}
+         />
+
          <TabBarIOS
             tintColor="white"
             barTintColor="darkslateblue">
             {tabs}
-
-        </TabBarIOS>
-               </View>
+         </TabBarIOS>
+      </View>
         );
   },
 
