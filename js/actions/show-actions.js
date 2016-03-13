@@ -17,6 +17,8 @@ var config = require('../utils/config.js')
 class ShowActions {
   fetchShow(accessKey, show) {
     console.log('fetch events');
+    
+    // TODO: do we have it cached, if so, return the cached data..
 
     var headers = ApiUtils.loginHeaders('GET',accessKey);
         // i.e. https://troupeit.com/shows/56c10e8160393a094c00019a.json

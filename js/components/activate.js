@@ -26,6 +26,9 @@ var Clipboard = require('react-native-clipboard');
 
 import {Actions} from 'react-native-router-flux'
 
+var EventStore = require('../stores/event-store');
+var EventActions = require('../actions/event-actions');
+
 var Activate = React.createClass({
   mixins: [TimerMixin],
   getInitialState() {
@@ -44,7 +47,7 @@ var Activate = React.createClass({
   _storeSecret(uid, secret) { 
       try {
           AsyncStorage.setItem(config.storage_access_key + "login", uid + ":" + secret);
-          console.log('Saved selection to disk: ' + val);
+          console.log("Stored credentials.");
       } catch (error) {
           console.log('storesecret - AsyncStorage error: ' + error.message);
       }
@@ -70,9 +73,11 @@ var Activate = React.createClass({
 
               if (responseData.status == 'valid') { 
                   console.log("got valid response, storing secret");
-                  $this._storeSecret(responseData.uid, this.state.secret);
-		  Actions.dismiss;
-		  Actions.eventList();
+                  $this._storeSecret(responseData.uid, $this.state.secret);
+		              Actions.dismiss;
+
+                  EventActions.fetchEvents(responseData.uid + ":" + this.state.secret);
+		              Actions.eventList();
               } else { 
                   /* if it fails... */
                   $this.setTimeout(() => { $this._checkActivationStatus(); }, 2000);

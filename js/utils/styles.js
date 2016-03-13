@@ -314,6 +314,13 @@ var stylesheet = Object.freeze({
     borderBottomWidth: 1,
     borderStyle: 'solid'
   },
+  eventListItemView_even: { 
+    padding: 10,
+    backgroundColor: '#000033',
+    borderBottomColor: '#333',
+    borderBottomWidth: 1,
+    borderStyle: 'solid'
+  },
   eventListItemTitle: { 
     color: '#fff',
   },
@@ -328,6 +335,22 @@ var stylesheet = Object.freeze({
     fontSize: 9,
     color: 'darkslateblue',
     tintColor: 'darkslateblue',
+  },
+  showItemNoteView: { 
+    padding: 10,
+    backgroundColor: '#000033',
+    borderBottomColor: '#333',
+    borderBottomWidth: 1,
+    borderStyle: 'solid'
+  },
+  showItemStartTime: {
+    color: '#fff',
+  },
+  showItemCueTime: {
+    color: '#fff',
+  },
+    showItemNote: {
+    color: '#fff',
   },
   scene: {
     flex: 1,

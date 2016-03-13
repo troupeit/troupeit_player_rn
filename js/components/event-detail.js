@@ -52,10 +52,27 @@ var EventDetail = React.createClass({
   componentWillUnmount: function() { 
     this.unlisten();
   },
-  renderCue: function(cue) { 
-     <Text style={styles.eventListItemCompany}>
-     test
-     </Text>
+  renderCue: function(cue) {
+    if (cue.kind == 0) {
+      return (<View style={styles.showItemNoteView}>
+              <Text style={styles.showItemStartTime}>
+              00:00:00
+              </Text>
+              <Text style={styles.showItemCueTime}>
+              +00:00:00
+              </Text>
+              <Text style={styles.showItemNote}>
+              +00:00:00
+              </Text>
+              </View>
+             );
+    }
+
+    return (<View style={styles.showItemNoteView}>
+            <Text style={styles.showItemNote}>
+            {cue.duration}
+            </Text>
+            </View>)
   },
   render: function() {
     var $this = this;
@@ -79,7 +96,7 @@ var EventDetail = React.createClass({
     // render the entire view
 
     if (! this.state.showdata) {
-      return <Text style={styles.welcome}>Fetching show...</Text>
+      return (<Text style={styles.welcome}>Fetching show...</Text>)
     } 
 
 
