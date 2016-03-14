@@ -17,6 +17,7 @@ var {
 
 var styles = require('../utils/styles');
 var config = require('../utils/config.js');
+var utils = require('../utils/troupeit_utils.js');
 
 var EventStore = require('../stores/event-store');
 var EventActions = require('../actions/event-actions');
@@ -25,7 +26,7 @@ var ShowActions = require('../actions/show-actions');
 
 var Actions = require('react-native-router-flux').Actions;
 
-var moment = require('moment');
+var moment = require('moment-timezone');
 
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}) // assumes immutable objects
 
@@ -37,7 +38,7 @@ var EventDetail = React.createClass({
     return { 
       showdata: null,
       dataSource: ds.cloneWithRows([]), 
-      currentTab: 0
+      selectedTab: 0
     }
   },
   componentDidMount: function() {
@@ -46,73 +47,154 @@ var EventDetail = React.createClass({
       this.setState({dataSource: ds.cloneWithRows(data.show.show_items) });
     });
 
-    // goddammmit, how do I load many events?
-    ShowActions.fetchShow(this.props.currentUser, this.props.event.shows[0]);
+    ShowActions.fetchShow(this.props.currentUser, this.props.event.shows[this.state.selectedTab]);
   },
   componentWillUnmount: function() { 
     this.unlisten();
   },
   renderCue: function(cue) {
+
+    var title = "";
+
+    if (cue.act) {
+      if (cue.act.title != null) {
+        var title = cue.act.stage_name + ": " + cue.act.title;
+      } else {
+        var title = cue.act.stage_name;
+      }
+    } else {
+      var title = cue.note;
+    }
+
+    if (title == undefined) {
+      title = "*** DELETED ACT ***"
+    }
+
     if (cue.kind == 0) {
       return (<View style={styles.showItemNoteView}>
-              <Text style={styles.showItemStartTime}>
-              00:00:00
-              </Text>
-              <Text style={styles.showItemCueTime}>
-              +00:00:00
-              </Text>
+
+              <View style={styles.cueTimeBar}>
+                <Text style={styles.cueTimeElement}>
+                  {utils.formatDuration(cue.duration, true)}
+                </Text>
+                <Text style={styles.cueTimeElement}>
+                  {utils.formatDuration(cue.duration, true)}
+                </Text>
+                <Text style={styles.cueTimeElement}>
+                  {utils.formatDuration(cue.duration, true)}
+                </Text>
+              </View>
+
               <Text style={styles.showItemNote}>
-              +00:00:00
+              {title}
               </Text>
+
               </View>
              );
     }
 
     return (<View style={styles.showItemNoteView}>
-            <Text style={styles.showItemNote}>
-            {cue.duration}
+              <View style={styles.cueTimeBar}>
+                <Text style={styles.cueTimeElement}>
+                  {utils.formatDuration(cue.duration, true)}
+                </Text>
+                <Text style={styles.cueTimeElement}>
+                  {utils.formatDuration(cue.duration, true)}
+                </Text>
+                <Text style={styles.cueTimeElement}>
+                  {utils.formatDuration(cue.duration, true)}
+                </Text>
+              </View>
+                <Text style={styles.showItemNote}>
+                   {title}
+                </Text>
+                <Text style={styles.showItemNote}>
+            {cue.act.sound_cue}
             </Text>
             </View>)
   },
-  render: function() {
+  switchTab: function(tabid) { 
+      this.setState({selectedTab: tabid});
+      ShowActions.fetchShow(this.props.currentUser, this.props.event.shows[tabid]);
+  },
+  renderTabItems: function() { 
     var $this = this;
-
     // render a tab for each day of the event
-    var tabs = this.props.event.shows.map(function(sh) { 
-      return (<TabBarIOS.Item
+    var show_n = 0;
+    var tabitems = [];
+
+    this.props.event.shows.map(function(sh) { 
+         var isSelected = false;
+         if (show_n == $this.state.selectedTab) { isSelected = true; }
+
+         tabitems.push(<TabBarIOS.Item
                      key={sh._id.$oid}
                      title={moment(sh.door_time).format('ll')}
                      icon={{uri: base64Listicon, scale: 2}}
-                     selected={false}
-                     onPress={() => {
-                       $this.setState({
-                          selectedTab: 'blueTab',
-                        });
-                    }}>
+                     selected={isSelected}
+                     onPress={$this.switchTab.bind($this, show_n)}>
+         <ListView
+           dataSource={$this.state.dataSource}
+           renderRow={(rowData) => $this.renderCue(rowData)}
+           style={styles.showItemListView}
+         />
               </TabBarIOS.Item>
-            )
+            );
+        show_n = show_n + 1;
     });
 
-    // render the entire view
+    return tabitems;
+  },
+  render: function() {
+    // render the entire view -- this code is quite similar to
+    // ShowPanel.js.jsx but with iOS objets.
 
     if (! this.state.showdata) {
+      // punt if no data.
       return (<Text style={styles.welcome}>Fetching show...</Text>)
     } 
 
+    /* set up all of our date formatters */
+    var thisshow = this.state.showdata.show;
+    var sdate = moment(thisshow.show_time);
+    var ddate = moment(thisshow.door_time);
+
+    var hd_show_time_s = sdate.tz(this.props.event.time_zone).format('h:mm a z');
+    var hd_door_time_s = ddate.tz(this.props.event.time_zone).format('h:mm a z');
+
+    var door_date_s = ddate.tz(this.props.event.time_zone).format('dddd, MMMM Do YYYY');
+
+    /* calculate show timings and duration */
+    var show_time = moment(thisshow.show_time);
+    var door_time = moment(thisshow.door_time);
+    var end_time = moment(thisshow.door_time);
+    var duration = 0;
+
+    for (var index = 0; index < thisshow.show_items.length; duration += thisshow.show_items[index].duration, ++index);
+    var duration_s = utils.formatDuration(duration, false);
+
+    end_time.add(duration, 'seconds');
+    var hd_end_time_s = end_time.tz(this.props.event.time_zone).format('h:mm a z');
 
     return ( 
       <View style={styles.homeContainer}>
-         <Text style={styles.welcome}>{this.state.showdata.show.title}</Text>
-         <ListView
-           dataSource={this.state.dataSource}
-           renderRow={(rowData) => this.renderCue(rowData)}
-         />
-
-         <TabBarIOS
+         <Text style={styles.showDetailTitle}>
+            {door_date_s}
+        </Text>
+        <Text style={styles.showDetailHeader}>
+            Doors: {hd_door_time_s} / Show: {hd_show_time_s}
+        </Text>
+        <Text style={styles.showDetailHeader}>
+            Duration: {duration_s} / Ends: {hd_end_time_s} 
+        </Text>
+        <Text style={styles.showDetailHeader}>
+            {this.state.showdata.show.venue}
+        </Text>
+        <TabBarIOS
             tintColor="white"
             barTintColor="darkslateblue">
-            {tabs}
-         </TabBarIOS>
+            {this.renderTabItems()}
+        </TabBarIOS>
       </View>
         );
   },

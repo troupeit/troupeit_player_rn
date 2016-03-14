@@ -336,6 +336,21 @@ var stylesheet = Object.freeze({
     color: 'darkslateblue',
     tintColor: 'darkslateblue',
   },
+  showDetailTitle: { 
+    paddingTop: 10,
+    paddingLeft: 10,
+    color: '#fff',
+    fontSize: 16
+  },
+  showDetailHeader: { 
+    paddingLeft: 10,
+    color: '#fff',
+    fontSize: 12
+  },
+  showItemListView: { 
+    flex: 1,
+    alignSelf: 'stretch'
+  },
   showItemNoteView: { 
     padding: 10,
     backgroundColor: '#000033',
@@ -349,8 +364,19 @@ var stylesheet = Object.freeze({
   showItemCueTime: {
     color: '#fff',
   },
-    showItemNote: {
+  showItemNote: {
     color: '#fff',
+  },
+  cueTimeBar: { 
+    flexDirection: 'row',
+  },
+  cueTimeElement: { 
+    flex: 1,
+    color: '#ffff00',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 5,
   },
   scene: {
     flex: 1,
@@ -418,11 +444,6 @@ var stylesheet = Object.freeze({
     top: 6,
     color: 'white',
     fontSize: 17
-  },
-  lightbulb: {
-    width: 70,
-    height: 70,
-    margin: 10
   },
   play: {
     width: 35,
