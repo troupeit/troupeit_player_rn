@@ -26,6 +26,9 @@
   import Launch from './js/components/launch';
   import EventList from './js/components/event-list';
   import EventDetail from './js/components/event-detail';
+  import ConfigDrawer from './js/components/ConfigDrawer';
+
+  var createConfigButton = require('./js/components/ConfigButton');
 
   export default class TIPlayer extends React.Component {
     constructor(props) {  
@@ -37,13 +40,13 @@
         storageChecked: false
       }
 
-		// bind this to our methods for acccess to state and props. 
-		this.render = this.render.bind(this);
-		this.userChanged = this.userChanged.bind(this);
-  }
+      // bind this to our methods for acccess to state and props. 
+      this.render = this.render.bind(this);
+      this.userChanged = this.userChanged.bind(this);
+    }
 
   userChanged(userdata) { 
-    console.log(userdata);
+    console.log('userchanged in tiplayer fired' + userdata.User);
     this.setState({ currentUser: userdata.User });
   }
 
@@ -54,11 +57,10 @@
 
  render() { 
   return (
-    <Router 
-    navigationBarStyle={stylescss.navBar}
-    titleStyle={stylescss.navBarTitleText}
-    hideNavBar={false}
-    >
+    <Router navigationBarStyle={stylescss.navBar}
+	    titleStyle={stylescss.navBarTitleText}
+	    hideNavBar={false}>
+
     <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
     <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
     <Schema name="withoutAnimation"/>
@@ -70,27 +72,37 @@
     </Route>
     
     <Route name="activateModal" schema="modal" type="replace" title="troupeIT Player">
-    <Router>
-    <Route name="activate" component={Activate} wrapRouter={true} title="troupeIT Player" schema="modal" type="replace"/>
-    </Router>
+      <Router>
+       <Route name="activate" component={Activate} wrapRouter={true} title="troupeIT Player" schema="modal" type="replace"/>
+      </Router>
     </Route>
 
     <Route name="error" component={Error} title="Error" type="modal"/>
+
+    <Route name="config" component={ConfigDrawer} title="Configuration" type="modal"/>
+
     <Route name="eventList" 
-    component={EventList} 
-    title="Events" 
-    type="replace" 
-    schema="default">
+       component={EventList} 
+       title="Events" 
+       type="replace" 
+       renderRightButton={createConfigButton}
+       schema="default"
+    >
+	   
     </Route>
+
     <Route name="eventDetail" 
     component={EventDetail} 
     title="Detail" 
     schema="default"
     leftTitle=" "
-    leftButtonStyle={stylescss.eventDetailNavStyle}>	     
+    leftButtonStyle={stylescss.eventDetailNavStyle}
+    >	     
     </Route>
+
     </Router>
     );
+
 };
 
 }

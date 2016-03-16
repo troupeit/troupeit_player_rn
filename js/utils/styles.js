@@ -342,6 +342,12 @@ var stylesheet = Object.freeze({
     color: '#fff',
     fontSize: 16
   },
+  showDetailFirstLine: { 
+    paddingTop: 10,
+    paddingLeft: 10,
+    color: '#fff',
+    fontSize: 12
+  },
   showDetailHeader: { 
     paddingLeft: 10,
     color: '#fff',

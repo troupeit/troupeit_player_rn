@@ -2,12 +2,14 @@
 
 var React = require('react-native');
 
-var {View, 
- Text, 
- StyleSheet, 
- Animated, 
- Dimensions, 
- AsyncStorage
+var {
+    ActivityIndicatorIOS,
+    View, 
+    Text, 
+    StyleSheet, 
+    Animated, 
+    Dimensions, 
+    AsyncStorage
 } = React;
 
 import config from '../utils/config.js';
@@ -63,6 +65,11 @@ var Launch = React.createClass({
       <Text style={styles.welcome}>
       Logging you in... 
       </Text>
+      <ActivityIndicatorIOS
+      animating={true}
+      style={[styles.centering, {height: 120}]}
+      size="large"
+      /> 
       </View>
       )
   }

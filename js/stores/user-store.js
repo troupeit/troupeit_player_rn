@@ -14,10 +14,10 @@ class UserStore {
 
     this.bindListeners({
       handleUpdateUser: UserActions.UPDATE_USER,
+      handleStoreUser: UserActions.STORE_USER,
       handleFetchUser: UserActions.FETCH_USER,
       handleUserFailed: UserActions.USER_FAILED,
     });
-
 
     this.registerAsync(UserSource);
   }
@@ -29,6 +29,12 @@ class UserStore {
 
   handleFetchUser() {
     this.User = null;
+  }
+
+  handleStoreUser(User) { 
+    console.log("HSU with " + User);
+    this.User = User;
+    this.errorMessage = null;
   }
 
   handleUserFailed(errorMessage) {

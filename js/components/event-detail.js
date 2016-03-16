@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var {
+  ActivityIndicatorIOS,
   AsyncStorage,
   AppRegistry,
   Navigator,
@@ -43,6 +44,7 @@ var EventDetail = React.createClass({
   },
   componentDidMount: function() {
     this.unlisten = ShowStore.listen((data) => {
+      console.log("showstore event fired");
       this.setState({showdata: data});
       this.setState({dataSource: ds.cloneWithRows(data.show.show_items) });
     });
@@ -55,6 +57,7 @@ var EventDetail = React.createClass({
   renderCue: function(cue) {
 
     var title = "";
+    var sound_cue = undefined;
 
     if (cue.act) {
       if (cue.act.title != null) {
@@ -62,6 +65,11 @@ var EventDetail = React.createClass({
       } else {
         var title = cue.act.stage_name;
       }
+
+      var sound_cue = (<Text style={styles.showItemNote}>
+                       {cue.act.sound_cue}
+                       </Text>
+		       );
     } else {
       var title = cue.note;
     }
@@ -108,9 +116,7 @@ var EventDetail = React.createClass({
                 <Text style={styles.showItemNote}>
                    {title}
                 </Text>
-                <Text style={styles.showItemNote}>
-            {cue.act.sound_cue}
-            </Text>
+	        {sound_cue}
             </View>)
   },
   switchTab: function(tabid) { 
@@ -151,7 +157,15 @@ var EventDetail = React.createClass({
 
     if (! this.state.showdata) {
       // punt if no data.
-      return (<Text style={styles.welcome}>Fetching show...</Text>)
+      return (      <View style={styles.homeContainer}>
+		    <Text style={styles.welcome}>Downloading show...</Text>
+		    <ActivityIndicatorIOS
+		    animating={true}
+		    style={[styles.centering, {height: 120}]}
+		    size="large"
+		    /> 
+		    </View>
+    	     )
     } 
 
     /* set up all of our date formatters */
@@ -178,10 +192,7 @@ var EventDetail = React.createClass({
 
     return ( 
       <View style={styles.homeContainer}>
-         <Text style={styles.showDetailTitle}>
-            {door_date_s}
-        </Text>
-        <Text style={styles.showDetailHeader}>
+        <Text style={styles.showDetailFirstLine}>
             Doors: {hd_door_time_s} / Show: {hd_show_time_s}
         </Text>
         <Text style={styles.showDetailHeader}>

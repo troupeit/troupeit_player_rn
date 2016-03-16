@@ -28,6 +28,8 @@ import {Actions} from 'react-native-router-flux'
 
 var EventStore = require('../stores/event-store');
 var EventActions = require('../actions/event-actions');
+var UserStore = require('../stores/user-store');
+var UserActions = require('../actions/user-actions');
 
 var Activate = React.createClass({
   mixins: [TimerMixin],
@@ -43,15 +45,6 @@ var Activate = React.createClass({
       this.setState({temppin: null});
       this.setState({secret: null});
       this._getNewPIN();
-  },
-  _storeSecret(uid, secret) { 
-      try {
-          AsyncStorage.setItem(config.storage_access_key + "login", uid + ":" + secret);
-          console.log("Stored credentials.");
-      } catch (error) {
-          console.log('storesecret - AsyncStorage error: ' + error.message);
-      }
-      /* update the user store! */
   },
   _checkActivationStatus() { 
       var $this = this;
@@ -73,14 +66,14 @@ var Activate = React.createClass({
 
               if (responseData.status == 'valid') { 
                   console.log("got valid response, storing secret");
-                  $this._storeSecret(responseData.uid, $this.state.secret);
-		              Actions.dismiss;
+		  UserActions.storeUser(responseData.uid, $this.state.secret);
+		  Actions.dismiss;
 
                   EventActions.fetchEvents(responseData.uid + ":" + this.state.secret);
-		              Actions.eventList();
+		  Actions.eventList();
               } else { 
                   /* if it fails... */
-                  $this.setTimeout(() => { $this._checkActivationStatus(); }, 2000);
+		  $this._timer = this.setTimeout(() => { this._checkActivationStatus(); }, 2000);
               }
           })
           .catch((error) => {
@@ -113,7 +106,11 @@ var Activate = React.createClass({
                 this.setState({temppin: responseData.temppin});
                 this.setState({secret: responseData.secret});
                 this.setState({errorstr: ''});
-                this.setTimeout(() => { this._checkActivationStatus(); }, 2000);
+
+		if ($this._timer) { 
+		    this.clearTimeout($this._timer);
+		}
+                $this._timer = this.setTimeout(() => { this._checkActivationStatus(); }, 2000);
             })
             .catch((error) => {
                 console.warn(error);
@@ -127,7 +124,7 @@ var Activate = React.createClass({
     /* user clicked on our code */
     Clipboard.set(this.state.temppin);
 
-    AlertIOS.alert('Alert', 'Copied.');
+    AlertIOS.alert('Copy PIN', 'Copied to clipboard.');
   },
   render() {
     if (this.state.errorstr) {

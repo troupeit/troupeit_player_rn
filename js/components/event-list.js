@@ -15,6 +15,7 @@ var {
 } = React;
 
 var {ControlledRefreshableListView} = require('react-native-refreshable-listview');
+var Drawer = require('react-native-drawer');
 
 var styles = require('../utils/styles');
 var config = require('../utils/config.js');
@@ -22,8 +23,10 @@ var config = require('../utils/config.js');
 var EventStore = require('../stores/event-store');
 var EventActions = require('../actions/event-actions');
 
-var Actions = require('react-native-router-flux').Actions;
+var UserActions = require('../actions/user-actions');
+var UserStore = require('../stores/user-store');
 
+var Actions = require('react-native-router-flux').Actions;
 var moment = require('moment');
 
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}) // assumes immutable objects
@@ -31,16 +34,21 @@ var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}) // assu
 var EventList = React.createClass({
   getInitialState: function() {
     this._rendered = false;
-    return { dataSource: ds.cloneWithRows([]), 
+
+    return { dataSource: ds.cloneWithRows([]),
              isRefreshing: true }
   },
+  userChanged(userdata) { 
+    console.log('userchanged in eventlist fired' + userdata.User);
+    this.setState({ currentUser: userdata.User });
+    EventActions.fetchEvents(this.state.currentUser);
+  },
   componentDidMount: function() {
+    UserStore.listen(this.userChanged);
     EventStore.listen((data) => {
       console.log("event store updated");
       this.setState({dataSource: ds.cloneWithRows(data.eventList.reverse()) });
     });
-
-    EventActions.fetchEvents(this.props.currentUser);
   },
   reloadEvents: function() {
     console.log("reloadevents");
@@ -50,11 +58,10 @@ var EventList = React.createClass({
   _ItemClick: function(selectedEvent) { 
     console.log("click");
     console.log(selectedEvent);
-    Actions.eventDetail({event: selectedEvent, title: selectedEvent.title, currentUser: this.props.currentUser});
+    Actions.eventDetail({event: selectedEvent, title: selectedEvent.title, currentUser: this.state.currentUser});
   },
 
   renderEvent: function(event) {
-
     var eventDateStr = moment(event.startdate);
 
     // render odd and even rows differently
