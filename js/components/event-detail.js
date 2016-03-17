@@ -42,6 +42,15 @@ var EventDetail = React.createClass({
       selectedTab: 0
     }
   },
+  compute_start_time: function(seq) { 
+    /* get the start time for a single sequence id. Since they display
+     * out of order of order we have to recalc them. */
+    var starttime = moment(this.state.showdata.show.door_time);
+    for (var i=0; i < seq-1; i++) {
+	starttime.add(this.state.showdata.show.show_items[i].duration, 'seconds');
+    }
+    return starttime;
+  },
   componentDidMount: function() {
     this.unlisten = ShowStore.listen((data) => {
       console.log("showstore event fired");
@@ -55,7 +64,6 @@ var EventDetail = React.createClass({
     this.unlisten();
   },
   renderCue: function(cue) {
-
     var title = "";
     var sound_cue = undefined;
 
@@ -78,18 +86,23 @@ var EventDetail = React.createClass({
       title = "*** DELETED ACT ***"
     }
 
+    var cue_start = this.compute_start_time(cue.seq);
+    var cue_start_s = this.compute_start_time(cue.seq).format('LT');
+    var cue_end = cue_start.add(cue.duration, 'seconds');
+    var cue_end_s = cue_end.format('LT');
+
     if (cue.kind == 0) {
       return (<View style={styles.showItemNoteView}>
 
               <View style={styles.cueTimeBar}>
                 <Text style={styles.cueTimeElement}>
-                  {utils.formatDuration(cue.duration, true)}
+		 {cue_start_s}
                 </Text>
                 <Text style={styles.cueTimeElement}>
                   {utils.formatDuration(cue.duration, true)}
                 </Text>
                 <Text style={styles.cueTimeElement}>
-                  {utils.formatDuration(cue.duration, true)}
+                 {cue_end_s}
                 </Text>
               </View>
 
@@ -104,19 +117,21 @@ var EventDetail = React.createClass({
     return (<View style={styles.showItemNoteView}>
               <View style={styles.cueTimeBar}>
                 <Text style={styles.cueTimeElement}>
-                  {utils.formatDuration(cue.duration, true)}
+		 {cue_start_s}
                 </Text>
                 <Text style={styles.cueTimeElement}>
                   {utils.formatDuration(cue.duration, true)}
                 </Text>
                 <Text style={styles.cueTimeElement}>
-                  {utils.formatDuration(cue.duration, true)}
+                 {cue_end_s}
                 </Text>
               </View>
                 <Text style={styles.showItemNote}>
                    {title}
                 </Text>
+                <Text style={styles.showItemSoundCue}>
 	        {sound_cue}
+	        </Text>
             </View>)
   },
   switchTab: function(tabid) { 
@@ -173,8 +188,8 @@ var EventDetail = React.createClass({
     var sdate = moment(thisshow.show_time);
     var ddate = moment(thisshow.door_time);
 
-    var hd_show_time_s = sdate.tz(this.props.event.time_zone).format('h:mm a z');
-    var hd_door_time_s = ddate.tz(this.props.event.time_zone).format('h:mm a z');
+    var hd_show_time_s = sdate.tz(this.props.event.time_zone).format('LT');
+    var hd_door_time_s = ddate.tz(this.props.event.time_zone).format('LT');
 
     var door_date_s = ddate.tz(this.props.event.time_zone).format('dddd, MMMM Do YYYY');
 
@@ -198,7 +213,7 @@ var EventDetail = React.createClass({
         <Text style={styles.showDetailHeader}>
             Duration: {duration_s} / Ends: {hd_end_time_s} 
         </Text>
-        <Text style={styles.showDetailHeader}>
+        <Text style={styles.showDetailLastLine}>
             {this.state.showdata.show.venue}
         </Text>
         <TabBarIOS

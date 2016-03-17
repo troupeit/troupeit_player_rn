@@ -12,8 +12,13 @@ var screenWidth = Dimensions.get('window').width;
 var screenHeight = Dimensions.get('window').height;
 
 /*
+  Theme idea
 
-  a bootstrap like style
+  yellowish - c4ba3c
+  deep purple - 461938
+  blackblue - 09152f
+  brighter blue - 4238b0
+  magenta - a52757
 
 */
 
@@ -280,7 +285,7 @@ var stylesheet = Object.freeze({
     marginLeft: 15,
   },
   navBar: {
-    backgroundColor: '#333333'
+    backgroundColor: '#3b002d',
   },
   navBarText: {
     fontSize: 16,
@@ -322,16 +327,20 @@ var stylesheet = Object.freeze({
     borderStyle: 'solid'
   },
   eventListItemTitle: { 
+    fontFamily: 'System',
     color: '#fff',
   },
   eventListItemDate: { 
+    fontFamily: 'System',
     color: '#fff',
   },
   eventListItemCompany: { 
+    fontFamily: 'System',
     fontSize: 9,
     color: '#ccc',
   },
   eventDetailNavStyle: { 
+    fontFamily: 'System',
     fontSize: 9,
     color: 'darkslateblue',
     tintColor: 'darkslateblue',
@@ -348,6 +357,13 @@ var stylesheet = Object.freeze({
     color: '#fff',
     fontSize: 12
   },
+  showDetailLastLine: { 
+    paddingBottom: 10,
+    paddingLeft: 10,
+    color: '#fff',
+    fontSize: 12,
+    borderStyle: 'solid'
+  },
   showDetailHeader: { 
     paddingLeft: 10,
     color: '#fff',
@@ -359,30 +375,37 @@ var stylesheet = Object.freeze({
   },
   showItemNoteView: { 
     padding: 10,
-    backgroundColor: '#000033',
+    backgroundColor: '#09152f',
     borderBottomColor: '#333',
     borderBottomWidth: 1,
-    borderStyle: 'solid'
+    borderStyle: 'solid',
   },
   showItemStartTime: {
+    fontFamily: 'System',
     color: '#fff',
   },
   showItemCueTime: {
+    fontFamily: 'System',
     color: '#fff',
   },
   showItemNote: {
+    fontFamily: 'System',
     color: '#fff',
+  },
+  showItemSoundCue: {
+    fontSize: 10,
+    color: '#ccc',
   },
   cueTimeBar: { 
     flexDirection: 'row',
   },
   cueTimeElement: { 
     flex: 1,
-    color: '#ffff00',
+    color: '#c4ba3c',
     borderStyle: 'solid',
-    borderWidth: 1,
-    borderColor: '#ccc',
     padding: 5,
+    fontFamily: 'System',
+    textAlign: 'right',
   },
   scene: {
     flex: 1,
