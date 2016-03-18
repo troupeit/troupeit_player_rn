@@ -85,19 +85,18 @@
        component={EventList} 
        title="Events" 
        type="replace" 
+       leftButtonTextStyle={stylescss.eventDetailLeftText} 
        renderRightButton={createConfigButton}
-       schema="default"
-    >
+       schema="default">
 	   
     </Route>
 
-    <Route name="eventDetail" 
-    component={EventDetail} 
-    title="Detail" 
-    schema="default"
-    leftTitle=" "
-    leftButtonStyle={stylescss.eventDetailNavStyle}
-    >	     
+    <Route name="eventDetail"
+      component={EventDetail} 
+      schema="default"
+      leftTitle="Events"
+      barButtonIconStyle={stylescss.barButton}
+      leftButtonTextStyle={stylescss.eventDetailLeftText} >
     </Route>
 
     </Router>

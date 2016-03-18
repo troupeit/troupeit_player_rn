@@ -10,15 +10,12 @@ var {
 
 var PlayerStore = require('../stores/player-store')
 var ListenerMixin = require('alt-mixins/ListenerMixin')
-var sortByAll = require('lodash.sortbyall');
 var PlayerActions = require('../actions/player-actions')
 var {Icon, } = require('react-native-icons');
-
 
 var stylescss = require('../utils/styles');
 
 var CurrentTrackFooter = React.createClass({
-
   mixins: [ListenerMixin],
 
   getInitialState: function() {
@@ -64,7 +61,6 @@ var CurrentTrackFooter = React.createClass({
     this.setState({
       playing: foo
     })
-
 
   },
 

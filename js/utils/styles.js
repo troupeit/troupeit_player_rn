@@ -24,7 +24,7 @@ var screenHeight = Dimensions.get('window').height;
 
 var LABEL_COLOR = '#000000';
 var INPUT_COLOR = '#ffffff';
-var LINK_COLOR = '#ffcc00';
+var LINK_COLOR = '#c4ba3c';
 var ERROR_COLOR = '#a94442';
 var HELP_COLOR = '#999999';
 var BORDER_COLOR = '#cccccc';
@@ -189,13 +189,16 @@ var stylesheet = Object.freeze({
     alignSelf: 'stretch',
     justifyContent: 'center'
   },
+  barButton: { 
+    tintColor: '#fff',
+  },
   containerBottom: {
     height: 40,
     flex: 1, 
     alignSelf: 'stretch',
     justifyContent: 'center',
     justifyContent: 'flex-end',
-          backgroundColor: 'transparent'
+    backgroundColor: 'transparent'
 
   },
   backgroundVideo: {
@@ -303,7 +306,10 @@ var stylesheet = Object.freeze({
     paddingRight: 10,
   },
   navBarButtonText: {
-    color: 'blue'
+    color: 'white'
+  },
+  configButton: {
+    padding: 23
   },
   eventListItemView_even: { 
     padding: 10,
@@ -339,11 +345,19 @@ var stylesheet = Object.freeze({
     fontSize: 9,
     color: '#ccc',
   },
-  eventDetailNavStyle: { 
+  eventDetailLeftText: { 
     fontFamily: 'System',
     fontSize: 9,
-    color: 'darkslateblue',
-    tintColor: 'darkslateblue',
+    color: '#ffffff',
+  },
+  cueContainer: { 
+    flexDirection: 'row',
+  },
+  cueLeft: { 
+    width: 30
+  },
+  cueRight: { 
+    flex: 1    
   },
   showDetailTitle: { 
     paddingTop: 10,
@@ -493,6 +507,28 @@ var stylesheet = Object.freeze({
   trackImage: {
     height: 100,
     width: 100
+  }, 
+  /* colors for cues */
+  red_bg: {
+    backgroundColor: '#cc4946',
+  },
+  blue_bg: {
+    backgroundColor: '#2a72b5',
+  },
+  cyan_bg: {
+    backgroundColor: '#3a92ab',
+  },
+  green_bg: {
+    backgroundColor: '#008a8a',
+  },
+  yellow_bg: {
+    backgroundColor: '#c47d15',
+  },
+  purple_bg: {
+    backgroundColor: '#9a5bbc',
+  },
+  brown_bg: {
+    backgroundColor: '#d35500',
   }
 
 });

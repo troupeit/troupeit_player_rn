@@ -15,7 +15,7 @@ var {Icon, } = require('react-native-icons');
 var ConfigButton = function() {
 	    return (
 		    <View>
-		    <Button style={{color: 'green'}}>
+		    <Button>
           <Icon
              name='fontawesome|cog'
              size={20}

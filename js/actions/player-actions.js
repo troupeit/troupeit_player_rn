@@ -3,11 +3,11 @@ var alt = require('../alt')
 class PlayerActions {
 
   update(data) {
-    this.dispatch({data});
+      return data;
   }
 
   updatePlayingStatus(status) {
-    this.dispatch(status)
+      return status;
   }
 
 }

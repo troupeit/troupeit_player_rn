@@ -25,6 +25,8 @@ var EventActions = require('../actions/event-actions');
 var ShowStore = require('../stores/show-store');
 var ShowActions = require('../actions/show-actions');
 
+var CurrentTrackFooter = require('./current-track.js');
+
 var Actions = require('react-native-router-flux').Actions;
 
 var moment = require('moment-timezone');
@@ -91,12 +93,11 @@ var EventDetail = React.createClass({
     var cue_end = cue_start.add(cue.duration, 'seconds');
     var cue_end_s = cue_end.format('LT');
 
-    if (cue.kind == 0) {
-      return (<View style={styles.showItemNoteView}>
+    return (<View style={[styles.showItemNoteView, styles[cue.color]]}>
 
               <View style={styles.cueTimeBar}>
                 <Text style={styles.cueTimeElement}>
-		 {cue_start_s}
+		            {cue_start_s}
                 </Text>
                 <Text style={styles.cueTimeElement}>
                   {utils.formatDuration(cue.duration, true)}
@@ -105,34 +106,20 @@ var EventDetail = React.createClass({
                  {cue_end_s}
                 </Text>
               </View>
-
+            <View style={styles.cueContainer}>
+	    <View style={styles.cueLeft}>
+            </View>
+            <View style={styles.cueRight}>
               <Text style={styles.showItemNote}>
-              {title}
+              {title} 
               </Text>
-
-              </View>
-             );
-    }
-
-    return (<View style={styles.showItemNoteView}>
-              <View style={styles.cueTimeBar}>
-                <Text style={styles.cueTimeElement}>
-		 {cue_start_s}
-                </Text>
-                <Text style={styles.cueTimeElement}>
-                  {utils.formatDuration(cue.duration, true)}
-                </Text>
-                <Text style={styles.cueTimeElement}>
-                 {cue_end_s}
-                </Text>
-              </View>
-                <Text style={styles.showItemNote}>
-                   {title}
-                </Text>
-                <Text style={styles.showItemSoundCue}>
-	        {sound_cue}
-	        </Text>
-            </View>)
+              <Text style={styles.showItemSoundCue}>
+              {sound_cue}
+              </Text>
+            </View>
+          </View>
+            </View>
+    );
   },
   switchTab: function(tabid) { 
       this.setState({selectedTab: tabid});
@@ -216,9 +203,10 @@ var EventDetail = React.createClass({
         <Text style={styles.showDetailLastLine}>
             {this.state.showdata.show.venue}
         </Text>
+        <CurrentTrackFooter/>
         <TabBarIOS
             tintColor="white"
-            barTintColor="darkslateblue">
+            barTintColor="#461938">
             {this.renderTabItems()}
         </TabBarIOS>
       </View>
