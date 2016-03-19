@@ -13,13 +13,11 @@ var screenHeight = Dimensions.get('window').height;
 
 /*
   Theme idea
-
   yellowish - c4ba3c
   deep purple - 461938
   blackblue - 09152f
   brighter blue - 4238b0
   magenta - a52757
-
 */
 
 var LABEL_COLOR = '#000000';
@@ -311,30 +309,40 @@ var stylesheet = Object.freeze({
   configButton: {
     padding: 23
   },
+  downloadButton: {
+    padding: 0
+  },
+  eventLeft: {
+    flex:1,
+  },
+  eventRight: {
+    width: 30,
+  },
   eventListItemView_even: { 
     padding: 10,
     backgroundColor: '#000033',
     borderBottomColor: '#333',
     borderBottomWidth: 1,
-    borderStyle: 'solid'
+    borderStyle: 'solid',
+    flexDirection: 'row',
   },
   eventListItemView_odd: { 
     padding: 10,
     backgroundColor: '#000044',
     borderBottomColor: '#333',
     borderBottomWidth: 1,
-    borderStyle: 'solid'
-  },
-  eventListItemView_even: { 
-    padding: 10,
-    backgroundColor: '#000033',
-    borderBottomColor: '#333',
-    borderBottomWidth: 1,
-    borderStyle: 'solid'
+    borderStyle: 'solid',
+    flexDirection: 'row',
   },
   eventListItemTitle: { 
     fontFamily: 'System',
     color: '#fff',
+  },
+  eventListItemSeq: { 
+    fontFamily: 'System',
+    color: '#fff',
+    textAlign: 'right',
+    paddingRight: 10,
   },
   eventListItemDate: { 
     fontFamily: 'System',
@@ -354,7 +362,7 @@ var stylesheet = Object.freeze({
     flexDirection: 'row',
   },
   cueLeft: { 
-    width: 30
+    width: 40
   },
   cueRight: { 
     flex: 1    

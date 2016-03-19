@@ -14,6 +14,9 @@ var {
   Netinfo
 } = React;
 
+var Button = require('react-native-button');
+var {Icon, } = require('react-native-icons');
+
 var {ControlledRefreshableListView} = require('react-native-refreshable-listview');
 var Drawer = require('react-native-drawer');
 
@@ -22,6 +25,7 @@ var config = require('../utils/config.js');
 
 var EventStore = require('../stores/event-store');
 var EventActions = require('../actions/event-actions');
+var EventDownload = require('./event-download');
 
 var UserActions = require('../actions/user-actions');
 var UserStore = require('../stores/user-store');
@@ -61,6 +65,12 @@ var EventList = React.createClass({
     Actions.eventDetail({event: selectedEvent, title: selectedEvent.title, currentUser: this.state.currentUser});
   },
 
+  _DLClick: function(selectedEvent) { 
+    console.log("clickDL");
+    console.log(selectedEvent);
+    Actions.eventDownload({event: selectedEvent, title: selectedEvent.title, currentUser: this.state.currentUser});
+  },
+
   renderEvent: function(event) {
     var eventDateStr = moment(event.startdate);
 
@@ -73,23 +83,37 @@ var EventList = React.createClass({
       var bgstyle = styles.eventListItemView_even;
     }
 
-    return <TouchableHighlight onPress={this._ItemClick.bind(this, event)}>
-           <View style={bgstyle}>
-
-           <Text style={styles.eventListItemCompany}>
-           {event.company.name}
-           </Text>
-
-           <Text style={styles.eventListItemTitle}>
-           {event.title}
-           </Text>
-
-           <Text style={styles.eventListItemTitle}>
-           {eventDateStr.format("LLL")}
-           </Text>
-
-           </View>
-           </TouchableHighlight>
+    return (
+<TouchableHighlight onPress={this._ItemClick.bind(this, event)}>
+  <View style={bgstyle}>
+    <View style={styles.eventLeft}>
+      <Text style={styles.eventListItemCompany}>
+        {event.company.name}
+      </Text>
+      
+      <Text style={styles.eventListItemTitle}>
+        {event.title}
+      </Text>
+      
+      <Text style={styles.eventListItemTitle}>
+        {eventDateStr.format("LLL")}
+      </Text>
+      
+    </View>
+    <View style={styles.eventRight}>
+      <Button onPress={this._DLClick.bind(this, event)}>
+      <Icon
+             name='fontawesome|download'
+             size={20}
+             width={20}
+             height={20}     
+             color='grey'
+             style={styles.downloadButton} />
+      </Button>
+    </View>
+  </View>
+</TouchableHighlight>
+          )
   },
   render: function() {
        return ( 

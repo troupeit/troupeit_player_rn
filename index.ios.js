@@ -26,6 +26,7 @@
   import Launch from './js/components/launch';
   import EventList from './js/components/event-list';
   import EventDetail from './js/components/event-detail';
+  import EventDownload from './js/components/event-download';
   import ConfigDrawer from './js/components/ConfigDrawer';
 
   var createConfigButton = require('./js/components/ConfigButton');
@@ -93,6 +94,14 @@
 
     <Route name="eventDetail"
       component={EventDetail} 
+      schema="default"
+      leftTitle="Events"
+      barButtonIconStyle={stylescss.barButton}
+      leftButtonTextStyle={stylescss.eventDetailLeftText} >
+    </Route>
+
+    <Route name="eventDownload"
+      component={EventDownload} 
       schema="default"
       leftTitle="Events"
       barButtonIconStyle={stylescss.barButton}
