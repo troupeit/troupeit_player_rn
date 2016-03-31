@@ -10,14 +10,19 @@ var EventActions = require('../actions/event-actions')
 class EventStore {
   constructor() {
    this.eventList = [];
-   //this.on('init', this.bootstrap);
-   //this.on('bootstrap', this.bootstrap);
 
    this.bindListeners({
        handleFetchEvents: EventActions.FETCH_EVENTS,
+       handleDownloadEvent: EventActions.DOWNLOAD_EVENT,
        handleFetchEventsComplete: EventActions.FETCH_EVENTS_COMPLETE,
        handleFetchEventsError: EventActions.FETCH_EVENTS_ERROR,
+       handleSetCurrentShow: EventActions.SET_CURRENT_SHOW
    });
+  }
+
+  handleSetCurrentShow(event_id) { 
+    /* memoize the current show for download or other use */
+    this.currentEvent = event_id; 
   }
 
   handleFetchEvents() {
@@ -33,6 +38,10 @@ class EventStore {
   handleFetchEventsError(error) {
     console.log("hfee");
     this.error = error;
+  }
+
+  handleDownloadEvent(event_id) {
+    console.log("hfee");
   }
 
   getState() {

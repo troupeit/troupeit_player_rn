@@ -30,6 +30,7 @@
   import ConfigDrawer from './js/components/ConfigDrawer';
 
   var createConfigButton = require('./js/components/ConfigButton');
+  var createDownloadButton = require('./js/components/DownloadButton');
 
   export default class TIPlayer extends React.Component {
     constructor(props) {  
@@ -85,7 +86,8 @@
     <Route name="eventList" 
        component={EventList} 
        title="Events" 
-       type="replace" 
+       type="replace"
+       leftButtonStyle={stylescss.barButton}
        leftButtonTextStyle={stylescss.eventDetailLeftText} 
        renderRightButton={createConfigButton}
        schema="default">
@@ -96,7 +98,7 @@
       component={EventDetail} 
       schema="default"
       leftTitle="Events"
-      barButtonIconStyle={stylescss.barButton}
+      leftButtonStyle={stylescss.barButton}
       leftButtonTextStyle={stylescss.eventDetailLeftText} >
     </Route>
 
@@ -105,7 +107,8 @@
       schema="default"
       leftTitle="Events"
       barButtonIconStyle={stylescss.barButton}
-      leftButtonTextStyle={stylescss.eventDetailLeftText} >
+      leftButtonTextStyle={stylescss.eventDetailLeftText}
+      renderRightButton={createDownloadButton} >
     </Route>
 
     </Router>

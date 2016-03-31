@@ -309,6 +309,9 @@ var stylesheet = Object.freeze({
   configButton: {
     padding: 23
   },
+  downloadTopButton: {
+    padding: 23
+  },
   downloadButton: {
     padding: 0
   },
