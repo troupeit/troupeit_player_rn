@@ -22,7 +22,7 @@ class ShowActions {
 
     var headers = ApiUtils.loginHeaders('GET',accessKey);
         // i.e. https://troupeit.com/shows/56c10e8160393a094c00019a.json
-        return fetch(config.apiURL + "/shows/" + show._id.$oid + ".json", headers)
+        return fetch(config.apiURL + "/shows/" + show._id.$oid + "/passets.json", headers)
           .then((response) => response.json() )
           .then((responseData) => {
               this.fetchShowComplete(responseData);

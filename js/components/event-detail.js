@@ -49,7 +49,7 @@ var EventDetail = React.createClass({
      * out of order of order we have to recalc them. */
     var starttime = moment(this.state.showdata.show.door_time);
     for (var i=0; i < seq-1; i++) {
-	starttime.add(this.state.showdata.show.show_items[i].duration, 'seconds');
+	    starttime.add(this.state.showdata.show.show.show_items[i].duration, 'seconds');
     }
     return starttime;
   },
@@ -57,7 +57,7 @@ var EventDetail = React.createClass({
     this.unlisten = ShowStore.listen((data) => {
       console.log("showstore event fired");
       this.setState({showdata: data});
-      this.setState({dataSource: ds.cloneWithRows(data.show.show_items) });
+      this.setState({dataSource: ds.cloneWithRows(data.show.show.show_items) });
     });
 
     ShowActions.fetchShow(this.props.currentUser, this.props.event.shows[this.state.selectedTab]);
@@ -172,8 +172,8 @@ var EventDetail = React.createClass({
 
     /* set up all of our date formatters */
     var thisshow = this.state.showdata.show;
-    var sdate = moment(thisshow.show_time);
-    var ddate = moment(thisshow.door_time);
+    var sdate = moment(thisshow.show.show_time);
+    var ddate = moment(thisshow.show.door_time);
 
     var hd_show_time_s = sdate.tz(this.props.event.time_zone).format('LT');
     var hd_door_time_s = ddate.tz(this.props.event.time_zone).format('LT');
@@ -181,12 +181,12 @@ var EventDetail = React.createClass({
     var door_date_s = ddate.tz(this.props.event.time_zone).format('dddd, MMMM Do YYYY');
 
     /* calculate show timings and duration */
-    var show_time = moment(thisshow.show_time);
-    var door_time = moment(thisshow.door_time);
-    var end_time = moment(thisshow.door_time);
+    var show_time = moment(thisshow.show.show_time);
+    var door_time = moment(thisshow.show.door_time);
+    var end_time = moment(thisshow.show.door_time);
     var duration = 0;
 
-    for (var index = 0; index < thisshow.show_items.length; duration += thisshow.show_items[index].duration, ++index);
+    for (var index = 0; index < thisshow.show.show_items.length; duration += thisshow.show.show_items[index].duration, ++index);
     var duration_s = utils.formatDuration(duration, false);
 
     end_time.add(duration, 'seconds');

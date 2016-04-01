@@ -50,9 +50,9 @@ var EventDownload = React.createClass({
   compute_start_time: function(seq) { 
     /* get the start time for a single sequence id. Since they display
      * out of order of order we have to recalc them. */
-    var starttime = moment(this.state.showdata.show.door_time);
+    var starttime = moment(this.state.showdata.show.show.door_time);
     for (var i=0; i < seq-1; i++) {
-	    starttime.add(this.state.showdata.show.show_items[i].duration, 'seconds');
+	    starttime.add(this.state.showdata.show.show.show_items[i].duration, 'seconds');
     }
     return starttime;
   },
@@ -63,7 +63,7 @@ var EventDownload = React.createClass({
     this.unlisten = ShowStore.listen((data) => {
       console.log("showstore event fired");
       this.setState({showdata: data});
-      this.setState({dataSource: ds.cloneWithRows(data.show.show_items) });
+      this.setState({dataSource: ds.cloneWithRows(data.show.show.show_items) });
 
       /* reconcile downloads for this show */
       $this._updateDownloads(data.assets);
@@ -193,7 +193,7 @@ var EventDownload = React.createClass({
     var end_time = moment(thisshow.door_time);
     var duration = 0;
 
-    for (var index = 0; index < thisshow.show_items.length; duration += thisshow.show_items[index].duration, ++index);
+    for (var index = 0; index < thisshow.show.show_items.length; duration += thisshow.show.show_items[index].duration, ++index);
     var duration_s = utils.formatDuration(duration, false);
 
     end_time.add(duration, 'seconds');
