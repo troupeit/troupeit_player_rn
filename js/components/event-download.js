@@ -63,7 +63,7 @@ var EventDownload = React.createClass({
     this.unlisten = ShowStore.listen((data) => {
       console.log("showstore event fired");
       this.setState({showdata: data});
-      this.setState({dataSource: ds.cloneWithRows(data.show.show.show_items) });
+      this.setState({dataSource: ds.cloneWithRows(data.show.filelist) });
 
       /* reconcile downloads for this show */
       $this._updateDownloads(data.assets);
@@ -76,43 +76,11 @@ var EventDownload = React.createClass({
     this.unlisten();
   },
   renderCue: function(cue) {
-    var title = "";
-
-    /* ignore this if it's a note, because we're a downloader. */
-    if (cue.kind == 0) { 
-	    return (<View></View>);
-    }
-
-    if (cue.act) {
-      if (cue.act.title != null) {
-        var title = cue.act.stage_name + ": " + cue.act.title;
-      } else {
-        var title = cue.act.stage_name;
-      }
-
-    } else {
-      var title = cue.note;
-    }
-
-    if (title == undefined) {
-      title = "*** DELETED ACT ***"
-    }
-
-    var cue_start = this.compute_start_time(cue.seq);
-    var cue_start_s = this.compute_start_time(cue.seq).format('LT');
-    var cue_end = cue_start.add(cue.duration, 'seconds');
-    var cue_end_s = cue_end.format('LT');
-
     return (<View style={[styles.showItemNoteView, styles[cue.color]]}>
               <View style={styles.cueContainer}>
-	              <View style={styles.cueLeft}>
-	               <Text style={styles.eventListItemSeq}>
-                  {cue.seq}.
-                 </Text>
-                </View>
                 <View style={styles.cueRight}>
                   <Text style={styles.showItemNote}>
-                  {title} 
+                  {cue.filename} 
                   </Text>
                 </View>
               </View>
@@ -166,7 +134,8 @@ var EventDownload = React.createClass({
 
     if (! this.state.showdata) {
       // punt if no data.
-      return (      <View style={styles.homeContainer}>
+      return (      
+        <View style={styles.homeContainer}>
 		    <Text style={styles.welcome}>Downloading show...</Text>
 		    <ActivityIndicatorIOS
 		    animating={true}
@@ -176,28 +145,6 @@ var EventDownload = React.createClass({
 		    </View>
     	     )
     } 
-
-    /* set up all of our date formatters */
-    var thisshow = this.state.showdata.show;
-    var sdate = moment(thisshow.show_time);
-    var ddate = moment(thisshow.door_time);
-
-    var hd_show_time_s = sdate.tz(this.props.event.time_zone).format('LT');
-    var hd_door_time_s = ddate.tz(this.props.event.time_zone).format('LT');
-
-    var door_date_s = ddate.tz(this.props.event.time_zone).format('dddd, MMMM Do YYYY');
-
-    /* calculate show timings and duration */
-    var show_time = moment(thisshow.show_time);
-    var door_time = moment(thisshow.door_time);
-    var end_time = moment(thisshow.door_time);
-    var duration = 0;
-
-    for (var index = 0; index < thisshow.show.show_items.length; duration += thisshow.show.show_items[index].duration, ++index);
-    var duration_s = utils.formatDuration(duration, false);
-
-    end_time.add(duration, 'seconds');
-    var hd_end_time_s = end_time.tz(this.props.event.time_zone).format('h:mm a z');
 
     return ( 
       <View style={styles.homeContainer}>
