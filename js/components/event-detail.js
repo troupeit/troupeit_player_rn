@@ -160,7 +160,7 @@ var EventDetail = React.createClass({
     if (! this.state.showdata) {
       // punt if no data.
       return (      <View style={styles.homeContainer}>
-		    <Text style={styles.welcome}>Downloading show...</Text>
+		    <Text style={styles.welcome}>Loading show...</Text>
 		    <ActivityIndicatorIOS
 		    animating={true}
 		    style={[styles.centering, {height: 120}]}

@@ -56,17 +56,12 @@ var EventDownload = React.createClass({
     }
     return starttime;
   },
-  _updateDownloads(assets) { 
-  },
   componentDidMount: function() {
     var $this = this;
     this.unlisten = ShowStore.listen((data) => {
       console.log("showstore event fired");
       this.setState({showdata: data});
       this.setState({dataSource: ds.cloneWithRows(data.show.filelist) });
-
-      /* reconcile downloads for this show */
-      $this._updateDownloads(data.assets);
     });
 
     ShowActions.fetchShow(this.props.currentUser, this.props.event.shows[this.state.selectedTab]);

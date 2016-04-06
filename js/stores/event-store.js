@@ -41,7 +41,7 @@ class EventStore {
   }
 
   handleDownloadEvent(event_id) {
-    console.log("hfee");
+    console.log("hfde");
   }
 
   getState() {

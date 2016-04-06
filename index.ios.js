@@ -19,8 +19,10 @@
   import stylescss from './js/utils/styles';
   import Alt from './js/alt.js';
   import {Router, Route, Schema, Animations, TabBar, Actions} from 'react-native-router-flux'
-  import UserActions from './js/actions/user-actions';
+
   import UserStore from './js/stores/user-store';
+  import UserActions from './js/actions/user-actions';
+
   import Error from './js/components/error'
   import Activate from './js/components/activate';
   import Launch from './js/components/launch';

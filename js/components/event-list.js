@@ -49,10 +49,13 @@ var EventList = React.createClass({
   },
   componentDidMount: function() {
     UserStore.listen(this.userChanged);
-    EventStore.listen((data) => {
+    this.unlisten = EventStore.listen((data) => {
       console.log("event store updated");
       this.setState({dataSource: ds.cloneWithRows(data.eventList) });
     });
+  },
+  componentWillUnmount: function() { 
+    this.unlisten();
   },
   reloadEvents: function() {
     console.log("reloadevents");

@@ -12,7 +12,8 @@ import alt from '../alt';
 //
 
 var ApiUtils = require('../utils/ApiUtils');
-var config = require('../utils/config.js')
+var config = require('../utils/config.js');
+var EventStore = require('../stores/event-store');
 
 class EventActions {
   fetchEvents(accessKey) {
@@ -24,6 +25,8 @@ class EventActions {
           .then((response) => response.json() )
           .then((responseData) => {
               console.log("back from fetch");
+	      // our api returns in asc order, reverse that.
+	      responseData.reverse();
               this.fetchEventsComplete(responseData);
           })
           .catch((error) => {
