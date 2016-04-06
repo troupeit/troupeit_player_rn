@@ -47,7 +47,7 @@ var EventDetail = React.createClass({
   compute_start_time: function(seq) { 
     /* get the start time for a single sequence id. Since they display
      * out of order of order we have to recalc them. */
-    var starttime = moment(this.state.showdata.show.door_time);
+    var starttime = moment(this.state.showdata.show.show.door_time);
     for (var i=0; i < seq-1; i++) {
 	    starttime.add(this.state.showdata.show.show.show_items[i].duration, 'seconds');
     }
@@ -89,9 +89,9 @@ var EventDetail = React.createClass({
     }
 
     var cue_start = this.compute_start_time(cue.seq);
-    var cue_start_s = this.compute_start_time(cue.seq).format('LT');
+    var cue_start_s = this.compute_start_time(cue.seq).tz(this.props.event.time_zone).format('LT');
     var cue_end = cue_start.add(cue.duration, 'seconds');
-    var cue_end_s = cue_end.format('LT');
+    var cue_end_s = cue_end.tz(this.props.event.time_zone).format('LT');
 
     return (<View style={[styles.showItemNoteView, styles[cue.color]]}>
 
@@ -201,7 +201,7 @@ var EventDetail = React.createClass({
             Duration: {duration_s} / Ends: {hd_end_time_s} 
         </Text>
         <Text style={styles.showDetailLastLine}>
-            {this.state.showdata.show.venue}
+            {this.state.showdata.show.show.venue}
         </Text>
         <CurrentTrackFooter/>
         <TabBarIOS

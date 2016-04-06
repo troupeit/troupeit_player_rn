@@ -51,7 +51,7 @@ var EventList = React.createClass({
     UserStore.listen(this.userChanged);
     EventStore.listen((data) => {
       console.log("event store updated");
-      this.setState({dataSource: ds.cloneWithRows(data.eventList.reverse()) });
+      this.setState({dataSource: ds.cloneWithRows(data.eventList) });
     });
   },
   reloadEvents: function() {
