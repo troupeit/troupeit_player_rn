@@ -14,6 +14,8 @@ import alt from '../alt';
 var ApiUtils = require('../utils/ApiUtils');
 var config = require('../utils/config.js')
 
+var ShowStore = require('../stores/show-store.js')
+
 class ShowActions {
   fetchShow(accessKey, show) {
     console.log('fetch events');
@@ -39,6 +41,16 @@ class ShowActions {
   fetchShowError(error) {
     return error;
   }
+
+  downloadShow() { 
+    return true;
+  }
+
+  downloadShowComplete() { 
+    return true;
+  }
+
+
 }
 
 module.exports = alt.createActions(ShowActions);

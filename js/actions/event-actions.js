@@ -43,17 +43,6 @@ class EventActions {
     return error;
   }
 
-  setCurrentShow(event_id) { 
-    console.log("setting current event to " + event_id)
-    return event_id;
-  }
-
-  downloadEvent(event_id) {
-    /* for every asset in this event */
-    /* fire off an action to download the asset */
-    console.log("download event " + event_id)
-    return event_id;
-  }
 }
 
 module.exports = alt.createActions(EventActions);

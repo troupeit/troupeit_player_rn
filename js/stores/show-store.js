@@ -16,6 +16,8 @@ class ShowStore {
        handleFetchShow: ShowActions.FETCH_SHOW,
        handleFetchShowComplete: ShowActions.FETCH_SHOW_COMPLETE,
        handleFetchShowError: ShowActions.FETCH_SHOW_ERROR,
+       handleDownloadShow: ShowActions.DOWNLOAD_SHOW,
+       handleDownloadShowComplete: ShowActions.DOWNLOAD_SHOW_COMPLETE
    });
 
   }
@@ -33,6 +35,15 @@ class ShowStore {
   handleFetchShowError(error) {
     console.log("hfsse");
     this.error = error;
+  }
+
+  handleDownloadShow() {
+    this.downloading = true;
+    return true;
+  }
+
+  handleDownloadShowComplete() {
+    this.downloading = false;
   }
 
   getState() {

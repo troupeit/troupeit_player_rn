@@ -16,6 +16,11 @@ var {
   Netinfo
 } = React;
 
+var FS = require('react-native-fs');
+
+var ASSET_SERVER = "https://d2x9yi7v90o6mz.cloudfront.net";
+var ASSET_PATH = FS.DocumentDirectoryPath + "/timusic/";
+
 var styles = require('../utils/styles');
 var config = require('../utils/config.js');
 var utils = require('../utils/troupeit_utils.js');
@@ -30,7 +35,6 @@ var CurrentTrackFooter = require('./current-track.js');
 var Actions = require('react-native-router-flux').Actions;
 
 var moment = require('moment-timezone');
-
 var ProgressBar = require('react-native-progress-bar');
   
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}) // assumes immutable objects
@@ -56,16 +60,42 @@ var EventDownload = React.createClass({
     }
     return starttime;
   },
+  _beginDL: function(progdata) {
+    console.log("begin DL")
+  },
+  _fnProgress: function(progdata) {
+    console.log("progress...")
+    console.log(progdata.bytesWritten + " " + progdata.contentLength);
+  },
+  _download: function() { 
+    console.log("starting download");
+    /* TODO: track account */
+    var currentfile = this.state.showdata.show.filelist[0];
+    var ext = currentfile.filename.substr(currentfile.filename.lastIndexOf('.') + 1);
+    var dURL = ASSET_SERVER + "/uploads/" + currentfile.uuid + "." + ext;
+
+    FS.mkdir(ASSET_PATH)
+      .then((result) => {
+         console.log("successful dir create, downloading " + dURL);
+         FS.downloadFile(dURL, ASSET_PATH + "/" + currentfile.uuid + "." + ext, this._beginDL, this._fnProgress);
+      })
+
+  },
   componentDidMount: function() {
     var $this = this;
     this.unlisten = ShowStore.listen((data) => {
       console.log("showstore event fired");
       this.setState({showdata: data});
       this.setState({dataSource: ds.cloneWithRows(data.show.filelist) });
+
+      if (data.downloading == true) { 
+        this._download();
+      }
+
     });
 
     ShowActions.fetchShow(this.props.currentUser, this.props.event.shows[this.state.selectedTab]);
-    EventActions.setCurrentShow(this.props.event.shows[this.state.selectedTab]);
+
   },
   componentWillUnmount: function() { 
     this.unlisten();
@@ -93,7 +123,6 @@ var EventDownload = React.createClass({
   switchTab: function(tabid) { 
       this.setState({selectedTab: tabid});
       ShowActions.fetchShow(this.props.currentUser, this.props.event.shows[tabid]);
-      EventActions.setCurrentShow(this.props.event.shows[this.state.selectedTab]);
   },
   renderTabItems: function() { 
     var $this = this;

@@ -30,6 +30,7 @@
 		A80393741C572EEE00E51E03 /* ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A80393731C572EEE00E51E03 /* ionicons.ttf */; };
 		A80393761C572EF300E51E03 /* zocial-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A80393751C572EF300E51E03 /* zocial-regular-webfont.ttf */; };
 		A803937E1C57329C00E51E03 /* libReactNativeIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A803937D1C57325100E51E03 /* libReactNativeIcons.a */; };
+		A82175841CB660A300B9ED3A /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A86BFEBF1C9BB5F800695347 /* libRNFS.a */; };
 		A88A74321C7DB78000C0CD9D /* libRNClipboard.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A88A74311C7DB52700C0CD9D /* libRNClipboard.a */; };
 		A8CEDD071C71C41D009D1F99 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A8CEDD061C71C386009D1F99 /* libRNDeviceInfo.a */; };
 /* End PBXBuildFile section */
@@ -200,6 +201,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A82175841CB660A300B9ED3A /* libRNFS.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				A8CEDD071C71C41D009D1F99 /* libRNDeviceInfo.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,

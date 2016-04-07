@@ -12,13 +12,12 @@ var styles = require('../utils/styles.js');
 /* the button that opens the config drawer */
 var {Icon, } = require('react-native-icons');
 
-var EventStore = require('../stores/event-store');
-var EventActions = require('../actions/event-actions');
+var ShowActions = require('../actions/show-actions');
 
 var DownloadButton = function() {
 	    return (
 		    <View>
-		    <Button onPress={EventActions.downloadEvent}>
+		    <Button onPress={ShowActions.downloadShow}>
           <Icon
              name='fontawesome|download'
              size={20}

@@ -13,10 +13,8 @@ class EventStore {
 
    this.bindListeners({
        handleFetchEvents: EventActions.FETCH_EVENTS,
-       handleDownloadEvent: EventActions.DOWNLOAD_EVENT,
        handleFetchEventsComplete: EventActions.FETCH_EVENTS_COMPLETE,
-       handleFetchEventsError: EventActions.FETCH_EVENTS_ERROR,
-       handleSetCurrentShow: EventActions.SET_CURRENT_SHOW
+       handleFetchEventsError: EventActions.FETCH_EVENTS_ERROR
    });
   }
 
@@ -38,10 +36,6 @@ class EventStore {
   handleFetchEventsError(error) {
     console.log("hfee");
     this.error = error;
-  }
-
-  handleDownloadEvent(event_id) {
-    console.log("hfde");
   }
 
   getState() {
