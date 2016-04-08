@@ -25,7 +25,7 @@ var config = require('../utils/config.js');
 
 var EventStore = require('../stores/event-store');
 var EventActions = require('../actions/event-actions');
-var EventDownload = require('./event-download');
+var ShowDownload = require('./show-download');
 
 var UserActions = require('../actions/user-actions');
 var UserStore = require('../stores/user-store');
@@ -71,7 +71,7 @@ var EventList = React.createClass({
   _DLClick: function(selectedEvent) { 
     console.log("clickDL");
     console.log(selectedEvent);
-    Actions.eventDownload({event: selectedEvent, title: selectedEvent.title, currentUser: this.state.currentUser});
+    Actions.showDownload({event: selectedEvent, title: selectedEvent.title, currentUser: this.state.currentUser});
   },
 
   renderEvent: function(event) {

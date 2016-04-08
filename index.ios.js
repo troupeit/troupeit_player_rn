@@ -28,7 +28,7 @@
   import Launch from './js/components/launch';
   import EventList from './js/components/event-list';
   import EventDetail from './js/components/event-detail';
-  import EventDownload from './js/components/event-download';
+  import ShowDownload from './js/components/show-download';
   import ConfigDrawer from './js/components/ConfigDrawer';
 
   var createConfigButton = require('./js/components/ConfigButton');
@@ -104,8 +104,8 @@
       leftButtonTextStyle={stylescss.eventDetailLeftText} >
     </Route>
 
-    <Route name="eventDownload"
-      component={EventDownload} 
+    <Route name="showDownload"
+      component={ShowDownload} 
       schema="default"
       leftTitle="Events"
       barButtonIconStyle={stylescss.barButton}
