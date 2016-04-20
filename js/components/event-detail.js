@@ -36,6 +36,21 @@ var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}) // assu
 // calendar icon from https://icons8.com/web-app/for/ios7/calendar
 var base64Calicon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABkklEQVRoQ+1Z7XHCMAx9TADdpBuwAmzACDAJHaEjtBuwAaMAE9BzLunljMFPcqzzBfGPQ9LT08dzghfgPjsARwCr3vwK4ADgm3OnrdQ4CxLiMiIxuAQyH6Q/a6bGYYnc+0wG+/g7m2jOTo0zKyLxXL6qWtyRXIW1v0twun0NDqm5fJaABEBLIvhJca7BgZl39ewK2WhwOp+3IxLmcBlV95aQZGEDHsw1OKKOBEH4GpEJJPaVDkQpjohIaaVr+juRmtXVxJ5vRzTVaMZnfI40k5QmEfZA1MS28pnvjrCP9FaVZnG8I2ylrOyyHTkD+LTKhsT5AbCNbLNEhncDEsPMLN5lmsgrEdC8lKUYl8RxIuOKllRyqjjekakqOVUcuiNmckQCqVWLjG9mpibi8tv3qLay0TviHfGOpHXj2YjSo2UmRySQWrXI+GZmaiK+7L7slZbdR6u10TKTIxJIrFonAGsyuJXZL4CN9F8Uq+RKcbIneymAlb8Tsao0i/PfkdTdNhukFbtbkLL4Dr2V5Ng8ujv/P+T316gpGiPZAAAAAElFTkSuQmCC";
 var base64Listicon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABCklEQVRoQ+2X7QnCMBiEn06gG6gTqJPpCLqJG6kb6AS6gZIfhVJUkvRCJJzQf2/uzX20hx2N/LpGeGAi/+akHbEjhRQYRusMbEZ7LsC20G4p7JDI6wtyP7MHdsBSeoN8sBtwBE4BIoXIA5jn7y1yMpBZpRJ5ArMi18kHvfcJSXEkRCs8i/y90pOBxOFTtMKLvR6tun74AEhvowJzIaqUVOHYEZWSKhw3u0rJCThudjf7hPj8OupmLySsBtaFqNFRh9KkI/7PrgtIEpKb3c2eFJj4YTd7vFYVJpvskQo66lY26YibXReQJCQ3u5s9KTDxw272eK0qTDbZIxV01K20IzotNUh2RKOjDuUN5IdIM7DXGD4AAAAASUVORK5CYII=";
+
+
+var Players = React.createClass({
+  render: function() {
+    var players = this.props.files.map(function(f) { 
+      return (<View key={f.uuid}>
+                <Text>{f.filename}</Text>
+              </View>
+              )
+    });
+
+    return (<View>{players}</View>);
+  }
+});
+
 var EventDetail = React.createClass({
   getInitialState: function() {
     return { 
@@ -65,6 +80,16 @@ var EventDetail = React.createClass({
   componentWillUnmount: function() { 
     this.unlisten();
   },
+  filesForAct: function(cue) {
+    var files = [];
+    for (var i=0; i < this.state.showdata.show.filelist.length; i++) { 
+      if (this.state.showdata.show.filelist[i].act_id.$oid == cue.act_id.$oid) {
+        files.push(this.state.showdata.show.filelist[i]);
+      }
+    }
+
+    return files;
+  },
   renderCue: function(cue) {
     var title = "";
     var sound_cue = undefined;
@@ -92,9 +117,9 @@ var EventDetail = React.createClass({
     var cue_start_s = this.compute_start_time(cue.seq).tz(this.props.event.time_zone).format('LT');
     var cue_end = cue_start.add(cue.duration, 'seconds');
     var cue_end_s = cue_end.tz(this.props.event.time_zone).format('LT');
+    var files = this.filesForAct(cue);
 
     return (<View style={[styles.showItemNoteView, styles[cue.color]]}>
-
               <View style={styles.cueTimeBar}>
                 <Text style={styles.cueTimeElement}>
 		            {cue_start_s}
@@ -107,15 +132,11 @@ var EventDetail = React.createClass({
                 </Text>
               </View>
             <View style={styles.cueContainer}>
-	    <View style={styles.cueLeft}>
-            </View>
             <View style={styles.cueRight}>
               <Text style={styles.showItemNote}>
               {title} 
               </Text>
-              <Text style={styles.showItemSoundCue}>
-              {sound_cue}
-              </Text>
+              <Players files={files} />
             </View>
           </View>
             </View>
