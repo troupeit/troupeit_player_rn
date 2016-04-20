@@ -32,8 +32,6 @@ var Actions = require('react-native-router-flux').Actions;
 
 var moment = require('moment-timezone');
 
-var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}) // assumes immutable objects
-
 // calendar icon from https://icons8.com/web-app/for/ios7/calendar
 var base64Calicon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABkklEQVRoQ+1Z7XHCMAx9TADdpBuwAmzACDAJHaEjtBuwAaMAE9BzLunljMFPcqzzBfGPQ9LT08dzghfgPjsARwCr3vwK4ADgm3OnrdQ4CxLiMiIxuAQyH6Q/a6bGYYnc+0wG+/g7m2jOTo0zKyLxXL6qWtyRXIW1v0twun0NDqm5fJaABEBLIvhJca7BgZl39ewK2WhwOp+3IxLmcBlV95aQZGEDHsw1OKKOBEH4GpEJJPaVDkQpjohIaaVr+juRmtXVxJ5vRzTVaMZnfI40k5QmEfZA1MS28pnvjrCP9FaVZnG8I2ylrOyyHTkD+LTKhsT5AbCNbLNEhncDEsPMLN5lmsgrEdC8lKUYl8RxIuOKllRyqjjekakqOVUcuiNmckQCqVWLjG9mpibi8tv3qLay0TviHfGOpHXj2YjSo2UmRySQWrXI+GZmaiK+7L7slZbdR6u10TKTIxJIrFonAGsyuJXZL4CN9F8Uq+RKcbIneymAlb8Tsao0i/PfkdTdNhukFbtbkLL4Dr2V5Ng8ujv/P+T316gpGiPZAAAAAElFTkSuQmCC";
 var base64Listicon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABCklEQVRoQ+2X7QnCMBiEn06gG6gTqJPpCLqJG6kb6AS6gZIfhVJUkvRCJJzQf2/uzX20hx2N/LpGeGAi/+akHbEjhRQYRusMbEZ7LsC20G4p7JDI6wtyP7MHdsBSeoN8sBtwBE4BIoXIA5jn7y1yMpBZpRJ5ArMi18kHvfcJSXEkRCs8i/y90pOBxOFTtMKLvR6tun74AEhvowJzIaqUVOHYEZWSKhw3u0rJCThudjf7hPj8OupmLySsBtaFqNFRh9KkI/7PrgtIEpKb3c2eFJj4YTd7vFYVJpvskQo66lY26YibXReQJCQ3u5s9KTDxw272eK0qTDbZIxV01K20IzotNUh2RKOjDuUN5IdIM7DXGD4AAAAASUVORK5CYII=";
@@ -53,48 +51,7 @@ var Players = React.createClass({
 });
 
 var EventDetail = React.createClass({
-  getInitialState: function() {
-    return { 
-      showdata: null,
-      dataSource: ds.cloneWithRows([]), 
-      selectedTab: 0
-    }
-  },
-  compute_start_time: function(seq) { 
-    /* get the start time for a single sequence id. Since they display
-     * out of order of order we have to recalc them. */
-    var starttime = moment(this.state.showdata.show.show.door_time);
-    for (var i=0; i < seq-1; i++) {
-	    starttime.add(this.state.showdata.show.show.show_items[i].duration, 'seconds');
-    }
-    return starttime;
-  },
-  componentDidMount: function() {
-    this.unlisten = ShowStore.listen((data) => {
-      console.log("showstore event fired");
-      this.setState({showdata: data});
-      this.setState({dataSource: ds.cloneWithRows(data.show.show.show_items) });
-    });
-
-    ShowActions.fetchShow(this.props.currentUser, this.props.event.shows[this.state.selectedTab]);
-  },
-  componentWillUnmount: function() { 
-    this.unlisten();
-  },
-  filesForAct: function(cue) {
-    var files = [];
-    for (var i=0; i < this.state.showdata.show.filelist.length; i++) { 
-      if (this.state.showdata.show.filelist[i].act_id.$oid == cue.act_id.$oid) {
-        files.push(this.state.showdata.show.filelist[i]);
-      }
-    }
-
-    return files;
-  },
-  renderCue: function(cue) {
-    var title = "";
-    var sound_cue = undefined;
-
+  getTitle: function(cue) { 
     if (cue.act) {
       if (cue.act.title != null) {
         var title = cue.act.stage_name + ": " + cue.act.title;
@@ -113,7 +70,109 @@ var EventDetail = React.createClass({
     if (title == undefined) {
       title = "*** DELETED ACT ***"
     }
+      return title;
+  },
+  getInitialState: function() {
+      var getSectionData = (dataBlob, sectionID) => {
+	  return dataBlob[sectionID];
+      }
+      
+      var getRowData = (dataBlob, sectionID, rowID) => {
+	  return dataBlob[sectionID + ':' + rowID];
+      }
+      
+      return { 
+	  showdata: null,
+	  dataSource: new ListView.DataSource({
+	      getSectionData          : getSectionData,
+	      getRowData              : getRowData,
+	      rowHasChanged           : (row1, row2) => row1 !== row2,
+	      sectionHeaderHasChanged : (s1, s2) => s1 !== s2
+	  }),
+	  selectedTab: 0
+      }
+  },
+  compute_start_time: function(seq) { 
+    /* get the start time for a single sequence id. Since they display
+     * out of order of order we have to recalc them. */
+    var starttime = moment(this.state.showdata.show.show.door_time);
+    for (var i=0; i < seq-1; i++) {
+	    starttime.add(this.state.showdata.show.show.show_items[i].duration, 'seconds');
+    }
+    return starttime;
+  },
+  componentDidMount: function() {
+    this.unlisten = ShowStore.listen((data) => {
+	console.log("showstore event fired");
+	this.setState({showdata: data});
+	
+	var silength = data.show.show.show_items.length,
+        sectionIDs = [],
+        rowIDs = [],
+	dataBlob = [];
+	
+	// we're just going to push the index into show_items for each one
+	for (var i=0; i < silength; i++) {
+	    rowIDs[i] = [];
+	    sectionIDs.push(i);
 
+            dataBlob[i] = data.show.show.show_items[i];
+	    
+	    var files = this.filesForAct(data.show.show.show_items[i]);
+	    for (var j=0; j < files.length; j++) {
+		rowIDs[i].push(j);
+		dataBlob[i + ":" + j] = files[j]
+		console.log( i + ":" + j);
+		console.log(files[j]);
+	    }
+	}
+	
+	this.setState({dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs) });
+    });
+      
+    ShowActions.fetchShow(this.props.currentUser, this.props.event.shows[this.state.selectedTab]);
+  },
+  componentWillUnmount: function() { 
+    this.unlisten();
+  },
+  filesForAct: function(cue) {
+    var files = [];
+    for (var i=0; i < this.state.showdata.show.filelist.length; i++) { 
+      if (this.state.showdata.show.filelist[i].act_id.$oid == cue.act_id.$oid) {
+        files.push(this.state.showdata.show.filelist[i]);
+      }
+    }
+
+    return files;
+  },
+  renderSectionHeader: function(cue,id) { 
+    var cue_start = this.compute_start_time(cue.seq);
+    var cue_start_s = this.compute_start_time(cue.seq).tz(this.props.event.time_zone).format('LT');
+
+      return (
+	  <View>
+              <Text style={styles.cueTimeElement}>
+              {cue_start_s}
+	      </Text>
+
+	      <Text style={styles.cueTitle}>
+              {this.getTitle(cue)}
+              </Text>
+	  </View>
+      );
+  },
+  renderFile: function(filedata) {
+    // render a player/controller line for a file in an act. 
+      return (<View style={styles.showItemNoteView}>
+                <Text>{filedata.filename}</Text>
+              </View>
+	     );
+  },
+  renderCue: function(cue) {
+    // deprecated function, leaving in until we get things working.
+    var title = this.getTitle(cue);
+    var sound_cue = undefined;
+    
     var cue_start = this.compute_start_time(cue.seq);
     var cue_start_s = this.compute_start_time(cue.seq).tz(this.props.event.time_zone).format('LT');
     var cue_end = cue_start.add(cue.duration, 'seconds');
@@ -123,7 +182,7 @@ var EventDetail = React.createClass({
     return (<View style={[styles.showItemNoteView, styles[cue.color]]}>
               <View style={styles.cueTimeBar}>
                 <Text style={styles.cueTimeElement}>
-		            {cue_start_s}
+	        {cue_start_s}
                 </Text>
                 <Text style={styles.cueTimeElement}>
                   {utils.formatDuration(cue.duration, true)}
@@ -137,7 +196,6 @@ var EventDetail = React.createClass({
               <Text style={styles.showItemNote}>
               {title} 
               </Text>
-              <Players files={files} />
             </View>
           </View>
             </View>
@@ -165,7 +223,9 @@ var EventDetail = React.createClass({
                      onPress={$this.switchTab.bind($this, show_n)}>
          <ListView
            dataSource={$this.state.dataSource}
-           renderRow={(rowData) => $this.renderCue(rowData)}
+           renderSectionHeader={(rowData,id) => $this.renderSectionHeader(rowData,id)} 
+           renderRow={(rowData) => $this.renderFile(rowData)} 
+           enableEmptySections={true}
            style={styles.showItemListView}
          />
               </TabBarIOS.Item>

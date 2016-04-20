@@ -413,6 +413,12 @@ var stylesheet = Object.freeze({
     fontFamily: 'System',
     color: '#fff',
   },
+  cueTitle: {
+    fontFamily: 'System',
+    color: '#fff',
+    padding: 10,
+    paddingTop: 0
+  },
   showItemNote: {
     fontFamily: 'System',
     color: '#fff',
