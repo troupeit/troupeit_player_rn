@@ -15,6 +15,7 @@ var {
   ListView,
   Netinfo
 } = React;
+var Swiper = require('react-native-swiper')
 
 var styles = require('../utils/styles');
 var config = require('../utils/config.js');
@@ -194,15 +195,26 @@ var EventDetail = React.createClass({
 
     return ( 
       <View style={styles.homeContainer}>
+       <Swiper style={styles.wrapper} height={100} showsButtons={false}>
+       <View>
         <Text style={styles.showDetailFirstLine}>
-            Doors: {hd_door_time_s} / Show: {hd_show_time_s}
+        Information about the selected sound cue appears here when you have
+        selected a track. Select a track by tapping on any track name.
+        Swipe left for show details.
         </Text>
-        <Text style={styles.showDetailHeader}>
-            Duration: {duration_s} / Ends: {hd_end_time_s} 
-        </Text>
-        <Text style={styles.showDetailLastLine}>
+       </View>
+        <View>
+          <Text style={styles.showDetailFirstLine}>
+              Doors: {hd_door_time_s} / Show: {hd_show_time_s}
+          </Text>
+          <Text style={styles.showDetailHeader}>
+              Duration: {duration_s} / Ends: {hd_end_time_s} 
+          </Text>
+          <Text style={styles.showDetailLastLine}>
             {this.state.showdata.show.show.venue}
-        </Text>
+          </Text>
+        </View>
+        </Swiper>
         <CurrentTrackFooter/>
         <TabBarIOS
             tintColor="white"
