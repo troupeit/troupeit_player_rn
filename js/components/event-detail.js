@@ -37,19 +37,6 @@ var base64Calicon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAA
 var base64Listicon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABCklEQVRoQ+2X7QnCMBiEn06gG6gTqJPpCLqJG6kb6AS6gZIfhVJUkvRCJJzQf2/uzX20hx2N/LpGeGAi/+akHbEjhRQYRusMbEZ7LsC20G4p7JDI6wtyP7MHdsBSeoN8sBtwBE4BIoXIA5jn7y1yMpBZpRJ5ArMi18kHvfcJSXEkRCs8i/y90pOBxOFTtMKLvR6tun74AEhvowJzIaqUVOHYEZWSKhw3u0rJCThudjf7hPj8OupmLySsBtaFqNFRh9KkI/7PrgtIEpKb3c2eFJj4YTd7vFYVJpvskQo66lY26YibXReQJCQ3u5s9KTDxw272eK0qTDbZIxV01K20IzotNUh2RKOjDuUN5IdIM7DXGD4AAAAASUVORK5CYII=";
 
 
-var Players = React.createClass({
-  render: function() {
-    var players = this.props.files.map(function(f) { 
-      return (<View key={f.uuid}>
-                <Text>{f.filename}</Text>
-              </View>
-              )
-    });
-
-    return (<View>{players}</View>);
-  }
-});
-
 var EventDetail = React.createClass({
   getTitle: function(cue) { 
     if (cue.act) {
@@ -122,7 +109,6 @@ var EventDetail = React.createClass({
 	    for (var j=0; j < files.length; j++) {
 		rowIDs[i].push(j);
 		dataBlob[i + ":" + j] = files[j]
-		console.log( i + ":" + j);
 		console.log(files[j]);
 	    }
 	}
@@ -163,8 +149,8 @@ var EventDetail = React.createClass({
   },
   renderFile: function(filedata) {
     // render a player/controller line for a file in an act. 
-      return (<View style={styles.showItemNoteView}>
-                <Text>{filedata.filename}</Text>
+    return (<View style={styles.fileview}>
+	      <Text style={styles.filetext}>{filedata.filename}</Text>
               </View>
 	     );
   },

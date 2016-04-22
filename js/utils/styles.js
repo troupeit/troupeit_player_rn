@@ -505,6 +505,16 @@ var stylesheet = Object.freeze({
     color: 'white',
     fontSize: 17
   },
+  fileview: { 
+    padding: 10,
+    backgroundColor: '#444444',
+    borderBottomColor: '#111111',
+    borderBottomWidth: 1,
+    borderStyle: 'solid',
+  },
+  filetext: { 
+    color : 'white',
+  },
   play: {
     width: 35,
     height: 35
