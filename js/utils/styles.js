@@ -29,8 +29,16 @@ var BORDER_COLOR = '#cccccc';
 var DISABLED_COLOR = '#777777';
 var MENU_ITEM_COLOR = '#777777';
 var DISABLED_BACKGROUND_COLOR = '#eeeeee';
-var FONT_SIZE = 17;
+var FONT_SIZE = 12;
 var FONT_WEIGHT = '500';
+
+var BG='#1c1d21';
+var NAV_BG = '#31343d';
+var MEDIUM_BG='#445878';
+var GREY1='#374140';
+var GREY2='#1E1E20'; /* '2A2C2B'; */
+var HIGHLIGHT1='#92cdcf';
+var HIGHLIGHT2="#EEEFF7";
 
 var stylesheet = Object.freeze({
   fieldset: {},
@@ -286,7 +294,7 @@ var stylesheet = Object.freeze({
     marginLeft: 15,
   },
   navBar: {
-    backgroundColor: '#3b002d',
+    backgroundColor: NAV_BG,
   },
   navBarText: {
     fontSize: 16,
@@ -323,7 +331,7 @@ var stylesheet = Object.freeze({
   },
   eventListItemView_even: { 
     padding: 10,
-    backgroundColor: '#000033',
+    backgroundColor: GREY1,
     borderBottomColor: '#333',
     borderBottomWidth: 1,
     borderStyle: 'solid',
@@ -331,7 +339,7 @@ var stylesheet = Object.freeze({
   },
   eventListItemView_odd: { 
     padding: 10,
-    backgroundColor: '#000044',
+    backgroundColor: GREY2,
     borderBottomColor: '#333',
     borderBottomWidth: 1,
     borderStyle: 'solid',
@@ -353,12 +361,12 @@ var stylesheet = Object.freeze({
   },
   eventListItemCompany: { 
     fontFamily: 'System',
-    fontSize: 9,
+    fontSize: 12,
     color: '#ccc',
   },
   eventDetailLeftText: { 
     fontFamily: 'System',
-    fontSize: 9,
+    fontSize: 12,
     color: '#ffffff',
   },
   cueContainer: { 
@@ -416,8 +424,9 @@ var stylesheet = Object.freeze({
   cueTitle: {
     fontFamily: 'System',
     color: '#fff',
-    padding: 10,
-    paddingTop: 0
+    padding: 5,
+    paddingTop: 0,
+    fontWeight: 'bold'
   },
   showItemNote: {
     fontFamily: 'System',
@@ -503,11 +512,19 @@ var stylesheet = Object.freeze({
   currentTrackText: {
     top: 6,
     color: 'white',
-    fontSize: 17
+    fontSize: 12
+  },
+  cue_section_view: {
+    padding: 5,
+    backgroundColor: '#333333',
+  },
+  cue_section_text: {
+    color: HIGHLIGHT1,
+    padding: 5,
   },
   fileview: { 
     padding: 10,
-    backgroundColor: '#444444',
+    backgroundColor: '#222222',
     borderBottomColor: '#111111',
     borderBottomWidth: 1,
     borderStyle: 'solid',

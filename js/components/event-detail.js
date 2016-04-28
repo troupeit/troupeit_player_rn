@@ -49,7 +49,7 @@ var EventDetail = React.createClass({
       var sound_cue = (<Text style={styles.showItemNote}>
                        {cue.act.sound_cue}
                        </Text>
-		       );
+		  );
     } else {
       var title = cue.note;
     }
@@ -61,11 +61,11 @@ var EventDetail = React.createClass({
   },
   getInitialState: function() {
       var getSectionData = (dataBlob, sectionID) => {
-	  return dataBlob[sectionID];
+	        return dataBlob[sectionID];
       }
       
       var getRowData = (dataBlob, sectionID, rowID) => {
-	  return dataBlob[sectionID + ':' + rowID];
+	        return dataBlob[sectionID + ':' + rowID];
       }
       
       return { 
@@ -136,56 +136,22 @@ var EventDetail = React.createClass({
     var cue_start_s = this.compute_start_time(cue.seq).tz(this.props.event.time_zone).format('LT');
 
       return (
-	  <View>
-              <Text style={styles.cueTimeElement}>
-              {cue_start_s}
-	      </Text>
-
-	      <Text style={styles.cueTitle}>
-              {this.getTitle(cue)}
-              </Text>
-	  </View>
+     	  <View style={styles.cue_section_view}>
+          <Text style={styles.cue_section_text}>
+            {cue_start_s}
+	        </Text>
+	        <Text style={styles.cueTitle}>
+            {this.getTitle(cue)}
+          </Text>
+	      </View>
       );
   },
   renderFile: function(filedata) {
     // render a player/controller line for a file in an act. 
     return (<View style={styles.fileview}>
-	      <Text style={styles.filetext}>{filedata.filename}</Text>
-              </View>
-	     );
-  },
-  renderCue: function(cue) {
-    // deprecated function, leaving in until we get things working.
-    var title = this.getTitle(cue);
-    var sound_cue = undefined;
-    
-    var cue_start = this.compute_start_time(cue.seq);
-    var cue_start_s = this.compute_start_time(cue.seq).tz(this.props.event.time_zone).format('LT');
-    var cue_end = cue_start.add(cue.duration, 'seconds');
-    var cue_end_s = cue_end.tz(this.props.event.time_zone).format('LT');
-    var files = this.filesForAct(cue);
-
-    return (<View style={[styles.showItemNoteView, styles[cue.color]]}>
-              <View style={styles.cueTimeBar}>
-                <Text style={styles.cueTimeElement}>
-	        {cue_start_s}
-                </Text>
-                <Text style={styles.cueTimeElement}>
-                  {utils.formatDuration(cue.duration, true)}
-                </Text>
-                <Text style={styles.cueTimeElement}>
-                 {cue_end_s}
-                </Text>
-              </View>
-            <View style={styles.cueContainer}>
-            <View style={styles.cueRight}>
-              <Text style={styles.showItemNote}>
-              {title} 
-              </Text>
+	             <Text style={styles.filetext}>{filedata.filename}</Text>
             </View>
-          </View>
-            </View>
-    );
+	         );
   },
   switchTab: function(tabid) { 
       this.setState({selectedTab: tabid});
